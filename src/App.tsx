@@ -1,26 +1,30 @@
 import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import GlobalStyles from './styles/GlobalStyles';
+import Header from './components/Header';
+import Hero from './components/Hero';
+import Advantages from './components/Advantages';
+import Catalog from './components/Catalog';
+import CatalogRequest from './components/CatalogRequest';
+import Cases from './components/Cases';
+import Reviews from './components/Reviews';
+import Footer from './components/Footer';
 
-function App() {
+const App: React.FC = () => {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+      <GlobalStyles />
+      <Header />
+      <main>
+        <Hero />
+        <Advantages />
+        <Catalog />
+        <Cases />
+        <Reviews />
+        <CatalogRequest />
+      </main>
+      <Footer />
+    </>
   );
-}
+};
 
 export default App;
