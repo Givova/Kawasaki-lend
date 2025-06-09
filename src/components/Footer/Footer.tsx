@@ -142,9 +142,9 @@ const Footer: React.FC = () => {
         <FooterContent>
           <FooterColumn>
             <FooterLogo>
-              ProTech<span>Moto</span>
+              Kawasaki<span>Moto</span>
             </FooterLogo>
-            <p>Официальный дилер мотоциклов ProTechMoto в России. Продажа и обслуживание мотоциклов.</p>
+            <p>Официальный дилер мотоциклов Kawasaki в России. Продажа и обслуживание мотоциклов.</p>
             <SocialLinks>
               <SocialLink href="#" aria-label="Вконтакте">
                 <svg viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
@@ -168,10 +168,10 @@ const Footer: React.FC = () => {
           <FooterColumn>
             <FooterTitle>Модели</FooterTitle>
             <FooterList>
-              <FooterListItem><a href="#catalog">Эндуро</a></FooterListItem>
-              <FooterListItem><a href="#catalog">Супермото</a></FooterListItem>
+              <FooterListItem><a href="#catalog">Спортивные</a></FooterListItem>
               <FooterListItem><a href="#catalog">Туристические</a></FooterListItem>
-              <FooterListItem><a href="#catalog">Питбайки</a></FooterListItem>
+              <FooterListItem><a href="#catalog">Стритфайтеры</a></FooterListItem>
+              <FooterListItem><a href="#catalog">Эндуро</a></FooterListItem>
             </FooterList>
           </FooterColumn>
 
@@ -197,7 +197,7 @@ const Footer: React.FC = () => {
               <svg viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
                 <path d="M19,4H5A3,3,0,0,0,2,7V17a3,3,0,0,0,3,3H19a3,3,0,0,0,3-3V7A3,3,0,0,0,19,4Zm-.41,2-5.88,5.88a1,1,0,0,1-1.42,0L5.41,6ZM20,17a1,1,0,0,1-1,1H5a1,1,0,0,1-1-1V7.41l5.88,5.88a3,3,0,0,0,4.24,0L20,7.41Z" />
               </svg>
-              <a href="mailto:info@kayomoto.ru">info@exauto24.ru</a>
+              <a href="mailto:info@kawasaki.ru">info@kawasaki.ru</a>
             </ContactInfo>
             <ContactInfo>
               <svg viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
@@ -209,7 +209,7 @@ const Footer: React.FC = () => {
         </FooterContent>
 
         <Copyright>
-          &copy; {new Date().getFullYear()} ProTechMoto. Все права защищены.
+          &copy; {new Date().getFullYear()} Kawasaki. Все права защищены.
         </Copyright>
       </div>
     </FooterContainer>

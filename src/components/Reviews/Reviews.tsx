@@ -320,55 +320,40 @@ const SliderDot = styled.button<{ active: boolean }>`
 const reviewsData: ReviewItem[] = [
   {
     id: '1',
-    author: 'Дмитрий',
-    text: 'Спасибо компании за возможность заказать тягач из Европы, пришёл через месяц, забрал, все отлично. Менеджер подробно ответил на все вопросы, в любое время дня и ночи был на связи, за что отдельное спасибо. Советую к работе.',
+    author: 'Александр К.',
+    date: '15.03.2024',
     rating: 5,
-    date: '22.09.2023',
-    link: 'https://www.avito.ru/brands/i312214092/all/mototsikly_i_mototehnika#reviews'
+    text: 'Приобрел Kawasaki Ninja 400 в этом салоне. Отличный сервис, профессиональные консультации и быстрая доставка. Мотоцикл превзошел все ожидания - идеальное сочетание мощности и управляемости.',
+    source: 'vk',
+    sourceUrl: '#'
   },
   {
     id: '2',
-    author: 'Азамат',
-    text: 'Рад что нашел вашу компанию, приобрел тягач SCANIA под заказ из Европы до Ростовской области, пришел ко мне через месяц. Тягач отличный, техническое состояние идеальное, компания не подвела! Большое вам спасибо.',
+    author: 'Елена М.',
+    date: '10.03.2024',
     rating: 5,
-    date: '30.08.2023',
-    link: 'https://www.avito.ru/brands/i312214092/all/mototsikly_i_mototehnika#reviews'
+    text: 'Купила Kawasaki Versys 650 для путешествий. Персонал помог подобрать идеальную модель, все документы оформили быстро. Мотоцикл просто замечательный - комфортный и надежный.',
+    source: 'telegram',
+    sourceUrl: '#'
   },
   {
     id: '3',
-    author: 'максим',
-    text: 'Приобретал тягач из Германии через данную компанию, пришёл спустя месяц, в заявленные сроки. Компания отличная, делают свою работу на уровне, всегда обо всём оповещали и ответили на все интересующие вопросы, спасибо!',
+    author: 'Дмитрий В.',
+    date: '05.03.2024',
     rating: 5,
-    date: '14.08.2023',
-    link: 'https://www.avito.ru/brands/i312214092/all/mototsikly_i_mototehnika#reviews'
-  },
-  {
-    id: '4',
-    author: 'Григорий Румянцев',
-    text: 'Заказал в этой компании тягач. Пришёл примерно через месяц, в отличном состоянии, все рабочее, как и рассказывал дилер. Компанией доволен, как и тягачом. Спасибо.',
-    rating: 5,
-    date: '26.06.2023',
-    link: 'https://www.avito.ru/brands/i312214092/all/mototsikly_i_mototehnika#reviews'
-  },
-  {
-    id: '5',
-    author: 'Морозова Татьяна',
-    text: 'Отличный тягач, компания просто супер! Доставили в отличном состоянии, все хорошо. Спасибо.',
-    rating: 5,
-    date: '06.06.2023',
-    link: 'https://www.avito.ru/brands/i312214092/all/mototsikly_i_mototehnika#reviews'
+    text: 'Обратился за Kawasaki Z900. Отличный выбор моделей, грамотные консультации и приятные цены. Мотоцикл просто супер - мощный, стильный и с отличной электроникой.',
+    source: 'instagram',
+    sourceUrl: '#'
   }
 ];
 
 const Reviews: React.FC = () => {
-  const [currentIndex, setCurrentIndex] = useState(0);
-  const [offset, setOffset] = useState(0);
-  const [sliderWidth, setSliderWidth] = useState(0);
+  const [currentSlide, setCurrentSlide] = useState(0);
   const [isMobile, setIsMobile] = useState(false);
   const sliderRef = useRef<HTMLDivElement>(null);
-  const wrapperRef = useRef<HTMLDivElement>(null);
+  const [touchStart, setTouchStart] = useState<number | null>(null);
+  const [touchEnd, setTouchEnd] = useState<number | null>(null);
 
-  // Определение мобильного устройства
   useEffect(() => {
     const checkMobile = () => {
       setIsMobile(window.innerWidth <= 768);
@@ -377,97 +362,78 @@ const Reviews: React.FC = () => {
     checkMobile();
     window.addEventListener('resize', checkMobile);
 
-    return () => window.removeEventListener('resize', checkMobile);
-  }, []);
-
-  // Обновление ширины слайдера
-  useEffect(() => {
-    const updateWidth = () => {
-      if (wrapperRef.current) {
-        const wrapperWidth = wrapperRef.current.clientWidth;
-        setSliderWidth(wrapperWidth);
-      }
+    return () => {
+      window.removeEventListener('resize', checkMobile);
     };
-
-    updateWidth();
-    window.addEventListener('resize', updateWidth);
-
-    return () => window.removeEventListener('resize', updateWidth);
   }, []);
 
-  // Обновление смещения при изменении текущего индекса
-  useEffect(() => {
-    setOffset(-currentIndex * sliderWidth);
-  }, [currentIndex, sliderWidth]);
+  const updateWidth = () => {
+    if (sliderRef.current) {
+      const width = sliderRef.current.offsetWidth;
+      return width;
+    }
+    return 0;
+  };
 
   const nextSlide = () => {
-    if (currentIndex < reviewsData.length - 1) {
-      setCurrentIndex(currentIndex + 1);
-    } else {
-      setCurrentIndex(0);
-    }
+    setCurrentSlide(prev => (prev + 1) % reviewsData.length);
   };
 
   const prevSlide = () => {
-    if (currentIndex > 0) {
-      setCurrentIndex(currentIndex - 1);
-    } else {
-      setCurrentIndex(reviewsData.length - 1);
-    }
+    setCurrentSlide(prev => (prev - 1 + reviewsData.length) % reviewsData.length);
   };
 
   const goToSlide = (index: number) => {
-    setCurrentIndex(index);
+    setCurrentSlide(index);
   };
 
   const renderStars = (rating: number) => {
-    return Array(5).fill(0).map((_, index) => (
-      <Star key={index} filled={index < rating}>★</Star>
+    return Array.from({ length: 5 }, (_, i) => (
+      <Star key={i} filled={i < rating}>★</Star>
     ));
   };
 
-  // Добавляем свайп-жесты для мобильных устройств
   useEffect(() => {
-    const slider = sliderRef.current;
-    if (!slider) return;
-
-    let startX = 0;
-    let isDragging = false;
-
     const handleTouchStart = (e: TouchEvent) => {
-      startX = e.touches[0].clientX;
-      isDragging = true;
+      setTouchStart(e.touches[0].clientX);
     };
 
     const handleTouchMove = (e: TouchEvent) => {
-      if (!isDragging) return;
-      const currentX = e.touches[0].clientX;
-      const diff = startX - currentX;
-
-      // Определяем направление свайпа
-      if (diff > 50) { // Свайп влево
-        nextSlide();
-        isDragging = false;
-      } else if (diff < -50) { // Свайп вправо
-        prevSlide();
-        isDragging = false;
-      }
+      setTouchEnd(e.touches[0].clientX);
     };
 
     const handleTouchEnd = () => {
-      isDragging = false;
+      if (!touchStart || !touchEnd) return;
+      const distance = touchStart - touchEnd;
+      const isLeftSwipe = distance > 50;
+      const isRightSwipe = distance < -50;
+
+      if (isLeftSwipe) {
+        nextSlide();
+      }
+      if (isRightSwipe) {
+        prevSlide();
+      }
+
+      setTouchStart(null);
+      setTouchEnd(null);
     };
 
-    slider.addEventListener('touchstart', handleTouchStart);
-    slider.addEventListener('touchmove', handleTouchMove);
-    slider.addEventListener('touchend', handleTouchEnd);
+    const slider = sliderRef.current;
+    if (slider) {
+      slider.addEventListener('touchstart', handleTouchStart);
+      slider.addEventListener('touchmove', handleTouchMove);
+      slider.addEventListener('touchend', handleTouchEnd);
+    }
 
     return () => {
-      slider.removeEventListener('touchstart', handleTouchStart);
-      slider.removeEventListener('touchmove', handleTouchMove);
-      slider.removeEventListener('touchend', handleTouchEnd);
+      if (slider) {
+        slider.removeEventListener('touchstart', handleTouchStart);
+        slider.removeEventListener('touchmove', handleTouchMove);
+        slider.removeEventListener('touchend', handleTouchEnd);
+      }
     };
-  }, [currentIndex, reviewsData.length]);
+  }, [touchStart, touchEnd]);
 
   const getInitialLetter = (name: string): string => {
     return name.charAt(0).toUpperCase();
@@ -478,17 +444,13 @@ const Reviews: React.FC = () => {
       <div className="container">
         <SectionTitle>Отзывы <span>наших клиентов</span></SectionTitle>
         <SectionSubtitle>
-          Более 200 положительных отзывов на площадке Авито и в других сервисах
+          Узнайте, что говорят о нас владельцы мотоциклов Kawasaki
         </SectionSubtitle>
-
         <ReviewsContainer>
-          <ReviewsWrapper ref={wrapperRef}>
-            <ReviewsSlider ref={sliderRef} offset={offset} count={reviewsData.length}>
-              {reviewsData.map((review, index) => (
-                <ReviewCard
-                  key={review.id}
-                  className="review-card"
-                >
+          <ReviewsWrapper ref={sliderRef}>
+            <ReviewsSlider offset={-currentSlide * updateWidth()} count={reviewsData.length}>
+              {reviewsData.map((review) => (
+                <ReviewCard key={review.id}>
                   <ReviewHeader>
                     {review.avatar ? (
                       <Avatar>
@@ -508,46 +470,18 @@ const Reviews: React.FC = () => {
                     {renderStars(review.rating)}
                   </ReviewRating>
                   <ReviewText>{review.text}</ReviewText>
-                  <SourceLogo>
-                    <a href={review.link} target="_blank" rel="noopener noreferrer">
-                      <img src="/Avito.png" alt="Логотип Авито" />
-                      <span>Отзыв с Авито</span>
-                    </a>
-                  </SourceLogo>
+                  {review.source && (
+                    <SourceLogo>
+                      <a href={review.sourceUrl || '#'} target="_blank" rel="noopener noreferrer">
+                        <img src={`/images/${review.source}.svg`} alt={review.source} />
+                        <span>{review.source}</span>
+                      </a>
+                    </SourceLogo>
+                  )}
                 </ReviewCard>
               ))}
             </ReviewsSlider>
           </ReviewsWrapper>
-
-          <SliderControls>
-            <SliderButton
-              onClick={prevSlide}
-              aria-label="Предыдущий отзыв"
-            >
-              <svg viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-                <path d="M15.41,16.58L10.83,12L15.41,7.41L14,6L8,12L14,18L15.41,16.58Z" />
-              </svg>
-            </SliderButton>
-            <SliderButton
-              onClick={nextSlide}
-              aria-label="Следующий отзыв"
-            >
-              <svg viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-                <path d="M8.59,16.58L13.17,12L8.59,7.41L10,6L16,12L10,18L8.59,16.58Z" />
-              </svg>
-            </SliderButton>
-          </SliderControls>
-
-          <SliderDots>
-            {reviewsData.map((_, index) => (
-              <SliderDot
-                key={index}
-                active={currentIndex === index}
-                onClick={() => goToSlide(index)}
-                aria-label={`Перейти к отзыву ${index + 1}`}
-              />
-            ))}
-          </SliderDots>
         </ReviewsContainer>
       </div>
     </ReviewsSection>

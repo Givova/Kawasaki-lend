@@ -1,34 +1,45 @@
+import { DetailedHTMLProps, HTMLAttributes, ImgHTMLAttributes, AnchorHTMLAttributes } from 'react';
+
 export interface ProductModel {
-    id: string;
+    id: string | number;
     name: string;
-    description: string;
-    price: string;
-    features: string[];
     image: string;
+    price: string;
+    description: string;
+    features: string[];
 }
 
 export interface AdvantageItem {
-    id: string;
+    id: string | number;
     title: string;
     description: string;
     icon: string;
 }
 
 export interface CaseItem {
-    id: string;
+    id: string | number;
     title: string;
     description: string;
     image: string;
-    type: 'photo' | 'video';
+    link?: string;
+    type?: 'photo' | 'video';
     videoUrl?: string;
 }
 
 export interface ReviewItem {
-    id: string;
+    id: string | number;
     author: string;
-    text: string;
-    rating: number;
     date: string;
+    rating: number;
+    text: string;
     avatar?: string;
-    link?: string;
+    source?: string;
+    sourceUrl?: string;
+}
+
+export interface StyledProps {
+    offset?: number;
+    count?: number;
+    filled?: boolean;
+    active?: boolean;
 } 

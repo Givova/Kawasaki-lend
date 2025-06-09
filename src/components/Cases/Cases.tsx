@@ -223,47 +223,47 @@ const CloseButton = styled.button`
 const casesData: CaseItem[] = [
   {
     id: '1',
-    title: 'Как выглядит завод мототехники KAYO изнутри? И как собирают мотоциклы? Технологии, которые поражают',
-    description: 'Экскурсия на крупнейший завод эндуро мотоциклов KAYO в Китае.',
-    image: '/images/case1.webp',
+    title: 'Kawasaki Ninja H2R - самый мощный серийный мотоцикл в мире',
+    description: 'Обзор легендарного Kawasaki Ninja H2R с турбированным двигателем.',
+    image: '/images/ninja-h2r.webp',
     type: 'video',
-    videoUrl: 'https://rutube.ru/play/embed/31774f3901e6499df858e484ef368fdc'
-  },
-  {
-    id: '4',
-    title: 'Как выглядит завод мототехники KAYO изнутри?',
-    description: 'Фото с завода KAYO. Производственный процесс и детали.',
-    image: '/images/case1.webp',
-    type: 'photo'
-  },
-  {
-    id: '3',
-    title: 'KAYO K6R KYB – KAYO RACING TEAM и Роман Курбатов на эндуро гонке «Four Seasons» в Беларуси',
-    description: 'Выступление команды KAYO RACING TEAM на гонке в Беларуси.',
-    image: '/images/case3.webp',
-    type: 'video',
-    videoUrl: 'https://rutube.ru/play/embed/6acafe7c883273903620a69bfa370a1a'
-  },
-  {
-    id: '6',
-    title: 'KAYO K6R KYB – KAYO RACING TEAM и Роман Курбатов на эндуро гонке «Four Seasons» в Беларуси',
-    description: 'Фото с гонки «Four Seasons» в Беларуси.',
-    image: '/images/case3.webp',
-    type: 'photo'
+    videoUrl: 'https://www.youtube.com/embed/your-video-id'
   },
   {
     id: '2',
-    title: 'KAYO K2 Pro на самой сложной гонке в горах',
-    description: 'Хард эндуро гонка «Skhauat» и победа на KAYO K2 Pro.',
-    image: '/images/case2.webp',
+    title: 'Kawasaki Versys 1000 - идеальный туристический мотоцикл',
+    description: 'Тест-драйв и обзор Kawasaki Versys 1000 для дальних путешествий.',
+    image: '/images/versys-1000.webp',
     type: 'video',
-    videoUrl: 'https://rutube.ru/play/embed/5b6effb88960733a728914d9b77c151c'
+    videoUrl: 'https://www.youtube.com/embed/your-video-id'
+  },
+  {
+    id: '3',
+    title: 'Kawasaki Z900 - стильный стритфайтер',
+    description: 'Обзор и тест-драйв Kawasaki Z900 - современного стритфайтера.',
+    image: '/images/z900.webp',
+    type: 'video',
+    videoUrl: 'https://www.youtube.com/embed/your-video-id'
+  },
+  {
+    id: '4',
+    title: 'Kawasaki KX450 - гоночный мотоцикл для эндуро',
+    description: 'Обзор Kawasaki KX450 - профессионального мотоцикла для эндуро.',
+    image: '/images/kx450.webp',
+    type: 'photo'
   },
   {
     id: '5',
-    title: 'KAYO K2 Pro на самой сложной гонке в горах',
-    description: 'Фото с хард эндуро гонки на KAYO K2 Pro.',
-    image: '/images/case2.webp',
+    title: 'Kawasaki KLX450R - внедорожный мотоцикл',
+    description: 'Тест-драйв Kawasaki KLX450R в условиях бездорожья.',
+    image: '/images/klx450r.webp',
+    type: 'photo'
+  },
+  {
+    id: '6',
+    title: 'Kawasaki Vulcan S - круизер для города',
+    description: 'Обзор Kawasaki Vulcan S - комфортного круизера для городской езды.',
+    image: '/images/vulcan-s.webp',
     type: 'photo'
   }
 ];

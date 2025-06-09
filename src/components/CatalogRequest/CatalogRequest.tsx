@@ -222,13 +222,13 @@ const CatalogRequest: React.FC = () => {
         <RequestContainer>
           <RequestContent>
             <RequestTitle>
-              Запросить <span>актуальный каталог</span> в WhatsApp
+              Запросить <span>каталог мотоциклов Kawasaki</span> в WhatsApp
             </RequestTitle>
             <RequestDescription>
-              В каталоге более 70 проектов с ценами с разными комплектациями (холодный, теплый контур или "под ключ")
+              В каталоге представлены все модели мотоциклов Kawasaki с подробными характеристиками, ценами и комплектациями
             </RequestDescription>
             <a
-              href="https://wa.me/79203083324?text=Добрый%20день.%20Уточните%20каталог."
+              href="https://wa.me/79203083324?text=Здравствуйте,%20интересует%20каталог%20мотоциклов%20Kawasaki"
               target="_blank"
               rel="noopener noreferrer"
               style={{ textDecoration: 'none' }}
@@ -250,10 +250,10 @@ const CatalogRequest: React.FC = () => {
             <ModalContent>
               <CloseButton onClick={handleCloseModal} aria-label="Закрыть окно">×</CloseButton>
               <RequestTitle>
-                Запросить <span>актуальный каталог</span> в WhatsApp
+                Запросить <span>каталог мотоциклов Kawasaki</span> в WhatsApp
               </RequestTitle>
               <RequestDescription>
-                В каталоге более 70 проектов с ценами с разными комплектациями (холодный, теплый контур или "под ключ")
+                В каталоге представлены все модели мотоциклов Kawasaki с подробными характеристиками, ценами и комплектациями
               </RequestDescription>
               {!submitted ? (
                 <RequestForm onSubmit={handleSubmit}>
