@@ -61,16 +61,19 @@ const ReviewsContainer = styled.div`
   max-width: 900px;
   margin: 0 auto;
   position: relative;
-  padding: 0 20px;
+  padding: 0;
 `;
 
 const ReviewsWrapper = styled.div`
   overflow: hidden;
-  padding: 20px 0;
+  padding: 0;
   margin-bottom: 20px;
   position: relative;
   width: 100%;
   border-radius: 15px;
+  @media (max-width: 600px) {
+    padding: 20px 0;
+  }
 `;
 
 const ReviewsSlider = styled.div<{ offset: number; count: number }>`
@@ -78,34 +81,32 @@ const ReviewsSlider = styled.div<{ offset: number; count: number }>`
   transition: transform 0.5s ease;
   transform: translateX(${props => props.offset}px);
   ${props => props.count === 1 && 'justify-content: center;'}
-  padding-left: 5px;
+  width: 100%;
 `;
 
 const ReviewCard = styled.div`
   background-color: white;
   border-radius: 15px;
-  padding: 30px;
+  padding: 20px;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
-  flex: 0 0 auto;
-  width: calc(100% - 20px);
-  max-width: 800px;
+  flex: 0 0 100%;
+  width: 100%;
+  min-width: 100%;
   box-sizing: border-box;
-  margin-right: 15px;
+  margin-right: 0;
+  margin-left: 0;
   transition: all 0.3s ease;
   border: 1px solid rgba(0, 0, 0, 0.05);
+  @media (min-width: 768px) {
+    padding: 35px;
+  }
+  @media (max-width: 480px) {
+    padding: 15px 15px;
+  }
   
   &:hover {
     transform: translateY(-5px);
     box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
-  }
-  
-  @media (min-width: 768px) {
-    width: calc(100% - 20px);
-    padding: 35px;
-  }
-  
-  @media (max-width: 480px) {
-    padding: 25px;
   }
 `;
 
@@ -207,6 +208,7 @@ const ReviewText = styled.p`
   line-height: 1.6;
   color: var(--text-color);
   margin-bottom: 20px;
+  word-break: break-word;
   
   @media (max-width: 480px) {
     font-size: 14px;
@@ -364,7 +366,7 @@ const Reviews: React.FC = () => {
   const [sliderWidth, setSliderWidth] = useState(0);
   const [isMobile, setIsMobile] = useState(false);
   const sliderRef = useRef<HTMLDivElement>(null);
-  const cardRef = useRef<HTMLDivElement>(null);
+  const wrapperRef = useRef<HTMLDivElement>(null);
 
   // Определение мобильного устройства
   useEffect(() => {
@@ -381,9 +383,9 @@ const Reviews: React.FC = () => {
   // Обновление ширины слайдера
   useEffect(() => {
     const updateWidth = () => {
-      if (cardRef.current) {
-        const cardWidth = cardRef.current.clientWidth;
-        setSliderWidth(cardWidth + 5);
+      if (wrapperRef.current) {
+        const wrapperWidth = wrapperRef.current.clientWidth;
+        setSliderWidth(wrapperWidth);
       }
     };
 
@@ -395,22 +397,22 @@ const Reviews: React.FC = () => {
 
   // Обновление смещения при изменении текущего индекса
   useEffect(() => {
-    if (currentIndex === 0) {
-      setOffset(0);
-    } else {
-      setOffset(-currentIndex * sliderWidth);
-    }
+    setOffset(-currentIndex * sliderWidth);
   }, [currentIndex, sliderWidth]);
 
   const nextSlide = () => {
     if (currentIndex < reviewsData.length - 1) {
       setCurrentIndex(currentIndex + 1);
+    } else {
+      setCurrentIndex(0);
     }
   };
 
   const prevSlide = () => {
     if (currentIndex > 0) {
       setCurrentIndex(currentIndex - 1);
+    } else {
+      setCurrentIndex(reviewsData.length - 1);
     }
   };
 
@@ -465,7 +467,7 @@ const Reviews: React.FC = () => {
       slider.removeEventListener('touchmove', handleTouchMove);
       slider.removeEventListener('touchend', handleTouchEnd);
     };
-  }, [currentIndex]);
+  }, [currentIndex, reviewsData.length]);
 
   const getInitialLetter = (name: string): string => {
     return name.charAt(0).toUpperCase();
@@ -480,13 +482,12 @@ const Reviews: React.FC = () => {
         </SectionSubtitle>
 
         <ReviewsContainer>
-          <ReviewsWrapper ref={sliderRef}>
-            <ReviewsSlider offset={offset} count={reviewsData.length}>
+          <ReviewsWrapper ref={wrapperRef}>
+            <ReviewsSlider ref={sliderRef} offset={offset} count={reviewsData.length}>
               {reviewsData.map((review, index) => (
                 <ReviewCard
                   key={review.id}
                   className="review-card"
-                  ref={index === 0 ? cardRef : undefined}
                 >
                   <ReviewHeader>
                     {review.avatar ? (
@@ -509,7 +510,7 @@ const Reviews: React.FC = () => {
                   <ReviewText>{review.text}</ReviewText>
                   <SourceLogo>
                     <a href={review.link} target="_blank" rel="noopener noreferrer">
-                      <img src="/avito-logo.webp" alt="Авито" />
+                      <img src="/Avito.png" alt="Логотип Авито" />
                       <span>Отзыв с Авито</span>
                     </a>
                   </SourceLogo>
@@ -521,7 +522,6 @@ const Reviews: React.FC = () => {
           <SliderControls>
             <SliderButton
               onClick={prevSlide}
-              disabled={currentIndex === 0}
               aria-label="Предыдущий отзыв"
             >
               <svg viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
@@ -530,7 +530,6 @@ const Reviews: React.FC = () => {
             </SliderButton>
             <SliderButton
               onClick={nextSlide}
-              disabled={currentIndex === reviewsData.length - 1}
               aria-label="Следующий отзыв"
             >
               <svg viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">

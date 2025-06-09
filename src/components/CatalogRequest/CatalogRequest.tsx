@@ -1,29 +1,33 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
+import Lottie from 'lottie-react';
+import PhoneAnimation from '../../assets/Animation/Phone-animation.json';
 
 const RequestSection = styled.section`
   padding: 80px 0;
-  background-color: var(--light-color);
+  background-color: #f7f7f7;
 `;
 
 const RequestContainer = styled.div`
   display: flex;
   align-items: center;
   gap: 50px;
-  background-color: var(--gray-color);
-  border-radius: 10px;
+  background: #fff;
+  border-radius: 16px;
   overflow: hidden;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-  
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.10);
   @media (max-width: 992px) {
     flex-direction: column;
+    gap: 0;
   }
 `;
 
 const RequestContent = styled.div`
   flex: 1;
   padding: 40px;
-  
+  background: none;
+  border-radius: 0;
+  box-shadow: none;
   @media (max-width: 576px) {
     padding: 30px 20px;
   }
@@ -103,16 +107,15 @@ const SubmitButton = styled.button`
 const RequestImage = styled.div`
   flex: 1;
   height: 400px;
-  
+  background: none;
+  border-radius: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: none;
   @media (max-width: 992px) {
     width: 100%;
     height: 300px;
-  }
-  
-  img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
   }
 `;
 
@@ -239,7 +242,7 @@ const CatalogRequest: React.FC = () => {
             </a>
           </RequestContent>
           <RequestImage>
-            <img src="/placeholder-catalog.webp" alt="Каталог мотоциклов KAYO" />
+            <Lottie animationData={PhoneAnimation} loop={true} style={{ width: '100%', height: '100%' }} />
           </RequestImage>
         </RequestContainer>
         {modalOpen && (
