@@ -54,10 +54,10 @@ const App = (): JSX.Element => {
   return (
     <ErrorBoundary>
       <Helmet>
-        <title>Kayo Moto - Официальный дилер мотоциклов Kayo</title>
-        <meta name="description" content="Официальный дилер мотоциклов Kayo в России. Широкий выбор моделей, гарантия качества, сервисное обслуживание." />
-        <meta name="keywords" content="Kayo, мотоциклы, дилер, официальный дилер, мотоциклы Kayo" />
-        <link rel="canonical" href="https://kayo-moto.ru" />
+        <title>Kawasaki Moto - Официальный дилер мотоциклов Kawasaki</title>
+        <meta name="description" content="Официальный дилер мотоциклов Kawasaki в России. Широкий выбор моделей, гарантия качества, сервисное обслуживание." />
+        <meta name="keywords" content="Kawasaki, мотоциклы, дилер, официальный дилер, мотоциклы Kawasaki" />
+        <link rel="canonical" href="https://kawasaki-moto.ru" />
       </Helmet>
       <GlobalStyles />
       <Header />
@@ -65,7 +65,7 @@ const App = (): JSX.Element => {
         <Hero />
         <Advantages />
         <Catalog />
-        {/* <Cases /> */}
+        <Cases />
         <Reviews />
         <CatalogRequest />
       </main>

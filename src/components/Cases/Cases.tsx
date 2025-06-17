@@ -5,10 +5,6 @@ import { CaseItem } from '../../types';
 const CasesSection = styled.section`
   padding: 80px 0;
   background-color: var(--gray-color);
-
-  @media (max-width: 768px) {
-    padding: 40px 0;
-  }
 `;
 
 const SectionTitle = styled.h2`
@@ -34,11 +30,6 @@ const SectionSubtitle = styled.p`
   max-width: 700px;
   margin-left: auto;
   margin-right: auto;
-
-  @media (max-width: 768px) {
-    margin-bottom: 30px;
-    padding: 0 20px;
-  }
 `;
 
 const CasesTabs = styled.div`
@@ -74,9 +65,8 @@ const CasesGrid = styled.div`
     grid-template-columns: repeat(2, 1fr);
   }
   
-  @media (max-width: 768px) {
+  @media (max-width: 576px) {
     grid-template-columns: 1fr;
-    gap: 15px;
   }
 `;
 
@@ -91,21 +81,7 @@ const CaseCard = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: stretch;
-  max-width: 400px;
-  margin: 0 auto;
-
-  @media (max-width: 768px) {
-    max-width: 90%;
-    width: 100%;
-    height: auto;
-    aspect-ratio: 3/4;
-    margin: 0 auto;
-  }
   
-  @media (max-width: 480px) {
-    max-width: 100%;
-  }
-
   &:hover {
     transform: translateY(-5px);
     box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
@@ -247,22 +223,22 @@ const CloseButton = styled.button`
 const verticalVideos: CaseItem[] = [
   {
     id: 'v1',
-    title: 'Kayo Ninja H2R',
-    description: 'Обзор легендарного Kayo Ninja H2R',
+    title: 'Kawasaki Ninja H2R',
+    description: 'Обзор легендарного Kawasaki Ninja H2R',
     image: '/images/V1.mp4',
     type: 'video'
   },
   {
     id: 'v2',
-    title: 'Kayo Versys 1000',
-    description: 'Тест-драйв Kayo Versys 1000',
+    title: 'Kawasaki Versys 1000',
+    description: 'Тест-драйв Kawasaki Versys 1000',
     image: '/images/video2.mp4',
     type: 'video'
   },
   {
     id: 'v3',
-    title: 'Kayo Z900',
-    description: 'Обзор Kayo Z900',
+    title: 'Kawasaki Z900',
+    description: 'Обзор Kawasaki Z900',
     image: '/images/video3.mp4',
     type: 'video'
   }
@@ -327,10 +303,16 @@ const Cases: React.FC = () => {
           Посмотрите видео наших мотоциклов в действии
         </SectionSubtitle>
 
-        <CasesGrid>
+        <CasesGrid style={{ gridTemplateColumns: 'repeat(3, 1fr)', gap: '20px' }}>
           {verticalVideos.map((caseItem) => (
             <CaseCard 
               key={caseItem.id} 
+              style={{ 
+                maxWidth: 220, 
+                aspectRatio: '9/16', 
+                margin: '0 auto',
+                height: 'auto'
+              }} 
               onClick={() => openModal(caseItem)}
             >
               <CaseImage noOverlay>
