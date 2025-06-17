@@ -228,7 +228,7 @@ const CatalogRequest: React.FC = () => {
               В каталоге представлены все модели мотоциклов Kawasaki с подробными характеристиками, ценами и комплектациями
             </RequestDescription>
             <a
-              href="https://wa.me/79203083324?text=Здравствуйте,%20интересует%20каталог%20мотоциклов%20Kawasaki"
+              href="https://wa.me/79203383324?text=Здравствуйте,%20интересует%20каталог%20мотоциклов%20Kawasaki"
               target="_blank"
               rel="noopener noreferrer"
               style={{ textDecoration: 'none' }}

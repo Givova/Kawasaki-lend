@@ -150,7 +150,7 @@ const Header: React.FC = () => {
             <LottieWrapper>
               <Lottie animationData={JumpWhatsApp} loop={true} style={{ width: '100%', height: '100%' }} />
             </LottieWrapper>
-            <ContactButton href="tel:+79203083324">+7 920 308-33-24</ContactButton>
+            <ContactButton href="tel:+79203383324">+7 920 338-33-24</ContactButton>
           </div>
           <MobileMenuButton aria-label="Меню">
             ☰
