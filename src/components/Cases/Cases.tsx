@@ -220,82 +220,31 @@ const CloseButton = styled.button`
   z-index: 1001;
 `;
 
-const casesData: CaseItem[] = [
+const verticalVideos: CaseItem[] = [
   {
-    id: '1',
-    title: 'Kawasaki Ninja H2R - самый мощный серийный мотоцикл в мире',
-    description: 'Обзор легендарного Kawasaki Ninja H2R с турбированным двигателем.',
-    image: '/images/ninja-h2r.webp',
-    type: 'video',
-    videoUrl: 'https://www.youtube.com/embed/your-video-id'
+    id: 'v1',
+    title: 'Kawasaki Ninja H2R',
+    description: 'Обзор легендарного Kawasaki Ninja H2R',
+    image: '/images/V1.mp4',
+    type: 'video'
   },
   {
-    id: '2',
-    title: 'Kawasaki Versys 1000 - идеальный туристический мотоцикл',
-    description: 'Тест-драйв и обзор Kawasaki Versys 1000 для дальних путешествий.',
-    image: '/images/versys-1000.webp',
-    type: 'video',
-    videoUrl: 'https://www.youtube.com/embed/your-video-id'
+    id: 'v2',
+    title: 'Kawasaki Versys 1000',
+    description: 'Тест-драйв Kawasaki Versys 1000',
+    image: '/images/video2.mp4',
+    type: 'video'
   },
   {
-    id: '3',
-    title: 'Kawasaki Z900 - стильный стритфайтер',
-    description: 'Обзор и тест-драйв Kawasaki Z900 - современного стритфайтера.',
-    image: '/images/z900.webp',
-    type: 'video',
-    videoUrl: 'https://www.youtube.com/embed/your-video-id'
-  },
-  {
-    id: '4',
-    title: 'Kawasaki KX450 - гоночный мотоцикл для эндуро',
-    description: 'Обзор Kawasaki KX450 - профессионального мотоцикла для эндуро.',
-    image: '/images/kx450.webp',
-    type: 'photo'
-  },
-  {
-    id: '5',
-    title: 'Kawasaki KLX450R - внедорожный мотоцикл',
-    description: 'Тест-драйв Kawasaki KLX450R в условиях бездорожья.',
-    image: '/images/klx450r.webp',
-    type: 'photo'
-  },
-  {
-    id: '6',
-    title: 'Kawasaki Vulcan S - круизер для города',
-    description: 'Обзор Kawasaki Vulcan S - комфортного круизера для городской езды.',
-    image: '/images/vulcan-s.webp',
-    type: 'photo'
+    id: 'v3',
+    title: 'Kawasaki Z900',
+    description: 'Обзор Kawasaki Z900',
+    image: '/images/video3.mp4',
+    type: 'video'
   }
 ];
 
-const shortsData: CaseItem[] = [
-  {
-    id: 's1',
-    title: 'KAYO Enduro Shorts',
-    description: 'Короткое вертикальное видео о KAYO Enduro.',
-    image: '/images/short1.webp',
-    type: 'video',
-    videoUrl: 'https://rutube.ru/play/embed/365ca669e1c5d15a0dd35a81ddca0523'
-  },
-  {
-    id: 's2',
-    title: 'KAYO K2 Pro Shorts',
-    description: 'Вертикальный обзор KAYO K2 Pro.',
-    image: '/images/short2.webp',
-    type: 'video',
-    videoUrl: 'https://rutube.ru/play/embed/5b6effb88960733a728914d9b77c151c'
-  },
-  {
-    id: 's3',
-    title: 'KAYO K6R KYB Shorts',
-    description: 'Короткое видео с гонки на KAYO K6R KYB.',
-    image: '/images/short3.webp',
-    type: 'video',
-    videoUrl: 'https://rutube.ru/play/embed/6acafe7c883273903620a69bfa370a1a'
-  }
-];
-
-const AutoPlayVideo: React.FC<{ src: string; poster: string }> = ({ src, poster }) => {
+const AutoPlayVideo: React.FC<{ src: string }> = ({ src }) => {
   const videoRef = React.useRef<HTMLVideoElement | null>(null);
   React.useEffect(() => {
     const video = videoRef.current;
@@ -319,24 +268,21 @@ const AutoPlayVideo: React.FC<{ src: string; poster: string }> = ({ src, poster 
     <video
       ref={videoRef}
       src={src}
-      poster={poster}
       width="100%"
-      height="auto"
+      height="100%"
       controls
       muted
       playsInline
       preload="auto"
-      style={{ borderRadius: 8 }}
+      loop
+      style={{ objectFit: 'cover', borderRadius: 8 }}
     />
   );
 };
 
 const Cases: React.FC = () => {
-  const [activeTab, setActiveTab] = useState<'shorts' | 'photo' | 'video'>('shorts');
   const [modalOpen, setModalOpen] = useState(false);
   const [selectedCase, setSelectedCase] = useState<CaseItem | null>(null);
-
-  const filteredCases = casesData.filter(item => item.type === activeTab);
 
   const openModal = (caseItem: CaseItem) => {
     setSelectedCase(caseItem);
@@ -352,91 +298,41 @@ const Cases: React.FC = () => {
   return (
     <CasesSection id="cases">
       <div className="container">
-        <SectionTitle>Наши <span>кейсы</span></SectionTitle>
+        <SectionTitle>Наши <span>видео</span></SectionTitle>
         <SectionSubtitle>
-          Посмотрите фото и видео наших мотоциклов в действии
+          Посмотрите видео наших мотоциклов в действии
         </SectionSubtitle>
 
-        <CasesTabs>
-          <TabButton
-            active={activeTab === 'shorts'}
-            onClick={() => setActiveTab('shorts')}
-          >
-            Вертикальные видео
-          </TabButton>
-          <TabButton
-            active={activeTab === 'photo'}
-            onClick={() => setActiveTab('photo')}
-          >
-            Фото
-          </TabButton>
-          <TabButton
-            active={activeTab === 'video'}
-            onClick={() => setActiveTab('video')}
-          >
-            Видео
-          </TabButton>
-        </CasesTabs>
-
-        {activeTab === 'shorts' ? (
-          <CasesGrid style={{ gridTemplateColumns: 'repeat(3, 1fr)' }}>
-            {shortsData.map((caseItem, idx) => (
-              <CaseCard key={caseItem.id} style={{ maxWidth: 220, aspectRatio: '9/16', margin: '0 auto' }} onClick={() => openModal(caseItem)}>
-                <CaseImage noOverlay={idx === 0}>
-                  {idx === 0 ? (
-                    <AutoPlayVideo src="/images/KAYO%20BASIC%20K125%20–%20Базовый%20питбайк%20для%20бездорожья%20_%20Универсальная%20мототехника.mp4" poster={caseItem.image} />
-                  ) : (
-                    <>
-                      <img src={caseItem.image} alt={caseItem.title} style={{ objectFit: 'cover', aspectRatio: '9/16' }} />
-                      <PlayButton>
-                        <svg viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-                          <path d="M8,5.14V19.14L19,12.14L8,5.14Z" />
-                        </svg>
-                      </PlayButton>
-                    </>
-                  )}
-                </CaseImage>
-              </CaseCard>
-            ))}
-          </CasesGrid>
-        ) : (
-          <CasesGrid>
-            {filteredCases.map((caseItem) => (
-              <CaseCard key={caseItem.id} onClick={() => openModal(caseItem)}>
-                <CaseImage>
-                  <img src={caseItem.image} alt={caseItem.title} />
-                  {caseItem.type === 'video' && (
-                    <PlayButton>
-                      <svg viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M8,5.14V19.14L19,12.14L8,5.14Z" />
-                      </svg>
-                    </PlayButton>
-                  )}
-                </CaseImage>
-                <CaseInfo>
-                  <CaseTitle>{caseItem.title}</CaseTitle>
-                  <CaseDescription>{caseItem.description}</CaseDescription>
-                </CaseInfo>
-              </CaseCard>
-            ))}
-          </CasesGrid>
-        )}
+        <CasesGrid style={{ gridTemplateColumns: 'repeat(3, 1fr)', gap: '20px' }}>
+          {verticalVideos.map((caseItem) => (
+            <CaseCard 
+              key={caseItem.id} 
+              style={{ 
+                maxWidth: 220, 
+                aspectRatio: '9/16', 
+                margin: '0 auto',
+                height: 'auto'
+              }} 
+              onClick={() => openModal(caseItem)}
+            >
+              <CaseImage noOverlay>
+                <AutoPlayVideo src={caseItem.image} />
+              </CaseImage>
+            </CaseCard>
+          ))}
+        </CasesGrid>
 
         <Modal isOpen={modalOpen} onClick={closeModal}>
           <ModalContent onClick={(e) => e.stopPropagation()}>
             <CloseButton onClick={closeModal}>&times;</CloseButton>
-            {selectedCase?.type === 'video' ? (
-              <iframe
-                src={selectedCase.videoUrl ? `${selectedCase.videoUrl}${selectedCase.videoUrl.includes('?') ? '&' : '?'}autoplay=1` : ''}
-                title={selectedCase.title}
-                width="720"
-                height="405"
-                frameBorder="0"
-                allow="clipboard-write; autoplay"
-                allowFullScreen
+            {selectedCase && (
+              <video
+                src={selectedCase.image}
+                controls
+                autoPlay
+                loop
+                style={{ maxWidth: '100%', maxHeight: '90vh' }}
               />
-            ) : (
-              <img src={selectedCase?.image} alt={selectedCase?.title} />
             )}
           </ModalContent>
         </Modal>

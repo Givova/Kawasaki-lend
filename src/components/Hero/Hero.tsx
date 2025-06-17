@@ -2,11 +2,26 @@ import React from 'react';
 import styled from 'styled-components';
 
 const HeroSection = styled.section`
-  background-color: var(--secondary-color);
+  background-image: url('/images/kawasaki-zx-4rr-from-side.jpg'); /* Ваше фоновое изображение */
+  background-size: cover;
+  background-position: center 130%; /* Пробуем новое позиционирование, чтобы найти мотоцикл */
+  background-repeat: no-repeat;
+  background-attachment: fixed; /* Эффект параллакса */
   color: var(--light-color);
   padding: 150px 0 80px;
   position: relative;
   overflow: hidden;
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); /* Полупрозрачный черный оверлей */
+    z-index: 0;
+  }
 `;
 
 const HeroContainer = styled.div`
@@ -86,7 +101,7 @@ const HeroImageWrapper = styled.div`
 
 const WhatsAppButton = styled.a`
   display: inline-block;
-  background-color: var(--primary-color);
+  background-color: #196dff;
   color: var(--light-color);
   padding: 12px 24px;
   border-radius: 30px;
@@ -97,7 +112,7 @@ const WhatsAppButton = styled.a`
   transition: all 0.3s ease;
   
   &:hover {
-    background-color: #00a844;
+    background-color: #2563eb;
     transform: translateY(-2px);
   }
 `;
@@ -141,7 +156,7 @@ const Hero: React.FC = () => {
             </ButtonGroup>
           </HeroContent>
           <HeroImageWrapper>
-            <img src="/kawasaki-motorcycle.webp" alt="Мотоцикл Kawasaki" />
+            
           </HeroImageWrapper>
         </HeroContainer>
       </div>

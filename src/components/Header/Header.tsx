@@ -56,7 +56,7 @@ const ContactButton = styled.a`
   display: inline-block;
   padding: 4px 14px;
   background: none;
-  color: var(--primary-color);
+  color: #196dff;
   border-radius: 30px;
   font-weight: 600;
   font-size: 18px;
@@ -66,7 +66,7 @@ const ContactButton = styled.a`
   border: none;
   box-shadow: none;
   &:hover {
-    color: #007d2f;
+    color: #2563eb;
     text-decoration: underline;
   }
   @media (max-width: 768px) {

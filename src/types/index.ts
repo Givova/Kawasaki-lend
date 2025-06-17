@@ -1,12 +1,13 @@
-import { DetailedHTMLProps, HTMLAttributes, ImgHTMLAttributes, AnchorHTMLAttributes } from 'react';
+import { ReactNode } from 'react';
 
 export interface ProductModel {
     id: string | number;
     name: string;
     image: string;
     price: string;
-    description: string;
+    /* description: string; */
     features: string[];
+    images?: string[];
 }
 
 export interface AdvantageItem {
@@ -42,4 +43,12 @@ export interface StyledProps {
     count?: number;
     filled?: boolean;
     active?: boolean;
+}
+
+export interface ErrorBoundaryProps {
+    children: ReactNode;
+}
+
+export interface ErrorBoundaryState {
+    hasError: boolean;
 } 

@@ -75,7 +75,7 @@ const Input = styled.input`
   &:focus {
     border-color: var(--primary-color);
     outline: none;
-    box-shadow: 0 0 0 2px rgba(0, 200, 83, 0.2);
+    box-shadow: 0 0 0 2px rgba(0, 102, 204, 0.2);
   }
 `;
 
@@ -84,7 +84,7 @@ const SubmitButton = styled.button`
   align-items: center;
   justify-content: center;
   gap: 10px;
-  background-color: var(--primary-color);
+  background-color: #196dff;
   color: var(--light-color);
   border: none;
   padding: 14px 20px;
@@ -95,7 +95,7 @@ const SubmitButton = styled.button`
   transition: all 0.3s ease;
   
   &:hover {
-    background-color: #00a844;
+    background-color: #2563eb;
   }
   
   svg {
@@ -120,7 +120,7 @@ const RequestImage = styled.div`
 `;
 
 const SuccessMessage = styled.div`
-  background-color: rgba(0, 200, 83, 0.1);
+  background-color: rgba(0, 102, 204, 0.1);
   border-left: 4px solid var(--primary-color);
   padding: 15px;
   border-radius: 4px;
@@ -173,7 +173,7 @@ const OpenModalButton = styled.button`
   display: inline-flex;
   align-items: center;
   gap: 10px;
-  background-color: var(--primary-color);
+  background-color: #196dff;
   color: var(--light-color);
   border: none;
   padding: 16px 28px;
@@ -183,7 +183,7 @@ const OpenModalButton = styled.button`
   cursor: pointer;
   transition: all 0.3s ease;
   box-shadow: 0 2px 8px rgba(0,0,0,0.07);
-  &:hover { background-color: #00a844; }
+  &:hover { background-color: #2563eb; }
 `;
 
 const CatalogRequest: React.FC = () => {
