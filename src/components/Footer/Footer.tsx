@@ -227,7 +227,7 @@ const Footer: React.FC = () => {
         </FooterContent>
 
         <Copyright>
-          &copy; {new Date().getFullYear()} Kawasaki. Все права защищены.
+          &copy; {new Date().getFullYear()} ProTechMoto. Все права защищены.
         </Copyright>
       </div>
     </FooterContainer>
