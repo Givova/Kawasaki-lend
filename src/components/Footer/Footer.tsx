@@ -166,16 +166,32 @@ const CompanyDetails = styled.div`
   gap: 10px;
 `;
 
-const CompanyBlock = styled.div`
+const CompanyBlock = styled.a`
+  display: block;
   background: rgba(255, 255, 255, 0.05);
   padding: 12px 15px;
   border-radius: 8px;
+  text-decoration: none;
+  transition: background-color 0.3s ease;
+  
+  &:hover {
+    background: rgba(255, 255, 255, 0.1);
+  }
   
   p {
     margin: 0;
     color: #ccc;
     font-size: 14px;
     line-height: 1.4;
+  }
+`;
+
+const InnText = styled.span`
+  color: var(--primary-color);
+  font-size: 14px;
+  
+  ${CompanyBlock}:hover & {
+    text-decoration: underline;
   }
 `;
 
@@ -219,15 +235,13 @@ const Footer: React.FC = () => {
           <FooterColumn>
             <FooterTitle>Реквизиты</FooterTitle>
             <CompanyInfo>
-              <CompanyBlock>
+              <CompanyBlock 
+                href="/images/Реквизиты Новые решения_Точка.pdf" 
+                target="_blank" 
+                rel="noopener noreferrer"
+              >
                 <p>ООО "Новые решения"</p>
-                <InnLink 
-                  href="/images/Реквизиты Новые решения_Точка.pdf" 
-                  target="_blank" 
-                  rel="noopener noreferrer"
-                >
-                  ИНН: 6732243595
-                </InnLink>
+                <InnText>ИНН: 6732243595</InnText>
               </CompanyBlock>
             </CompanyInfo>
           </FooterColumn>
