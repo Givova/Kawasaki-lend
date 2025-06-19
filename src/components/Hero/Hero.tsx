@@ -2,13 +2,13 @@ import React from 'react';
 import styled from 'styled-components';
 
 const HeroSection = styled.section`
-  background-image: url('/images/kawasaki-zx-4rr-from-side.jpg'); /* Ваше фоновое изображение */
+  background-image: url('/images/baner.jpg'); /* Ваше фоновое изображение */
   background-size: cover;
-  background-position: center 130%; /* Пробуем новое позиционирование, чтобы найти мотоцикл */
+  background-position: center 100%; 
   background-repeat: no-repeat;
   background-attachment: fixed; /* Эффект параллакса */
   color: var(--light-color);
-  padding: 150px 0 80px;
+  padding: 200px 0 170px;
   position: relative;
   overflow: hidden;
 

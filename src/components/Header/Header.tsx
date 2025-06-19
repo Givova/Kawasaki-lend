@@ -24,6 +24,12 @@ const Logo = styled.div`
   font-size: 24px;
   font-weight: 700;
   color: var(--secondary-color);
+  cursor: pointer;
+  transition: color 0.3s ease;
+
+  &:hover {
+    color: var(--primary-color);
+  }
 
   span {
     color: var(--primary-color);
@@ -131,11 +137,18 @@ const LottieWrapper = styled.div`
 `;
 
 const Header: React.FC = () => {
+  const scrollToTop = () => {
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth'
+    });
+  };
+
   return (
     <HeaderContainer>
       <div className="container">
         <HeaderInner>
-          <Logo>
+          <Logo onClick={scrollToTop}>
             ProTech<span>Moto</span>
           </Logo>
           <Nav>

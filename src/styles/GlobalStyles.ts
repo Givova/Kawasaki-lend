@@ -41,6 +41,7 @@ const GlobalStyles = createGlobalStyle`
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+    -webkit-tap-highlight-color: transparent;
   }
 
   html {
@@ -70,6 +71,9 @@ const GlobalStyles = createGlobalStyle`
     border: none;
     background: none;
     padding: 0;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
   }
 
   ul, ol {
@@ -181,8 +185,35 @@ const GlobalStyles = createGlobalStyle`
 
   /* Focus styles */
   :focus {
-    outline: 2px solid var(--primary-color);
-    outline-offset: 2px;
+    outline: none;
+  }
+
+  /* Custom focus styles for interactive elements */
+  button:focus,
+  a:focus,
+  input:focus,
+  textarea:focus,
+  select:focus {
+    outline: none;
+  }
+
+  /* Remove focus ring for all elements */
+  *:focus {
+    outline: none !important;
+  }
+
+  /* Remove default button styles */
+  button {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+  }
+
+  /* Remove default input styles */
+  input, textarea, select {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
   }
 
   /* Selection */
