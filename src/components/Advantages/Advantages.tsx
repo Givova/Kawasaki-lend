@@ -1,8 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
-import { AdvantageItem } from '../../types';
 
-const AdvantagesSection = styled.section`
+const ProcessSection = styled.section`
   padding: 80px 0;
   background-color: var(--light-color);
 `;
@@ -22,148 +21,237 @@ const SectionTitle = styled.h2`
   }
 `;
 
-const AdvantagesGrid = styled.div`
+const ProcessContainer = styled.div`
+  max-width: 1200px;
+  margin: 0 auto;
+  position: relative;
+`;
+
+const ProcessGrid = styled.div`
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 30px;
+  grid-template-columns: 1fr;
+  gap: 32px;
   
-  @media (max-width: 992px) {
-    grid-template-columns: repeat(2, 1fr);
-  }
-  
-  @media (max-width: 576px) {
-    grid-template-columns: 1fr;
+  @media (min-width: 768px) {
+    grid-template-columns: 1fr 1fr;
+    gap: 64px;
   }
 `;
 
-const AdvantageCard = styled.div`
-  background-color: var(--gray-color);
+const ConnectingLine = styled.div`
+  display: none;
+  
+  @media (min-width: 768px) {
+    display: block;
+    position: absolute;
+    left: 50%;
+    top: 40px;
+    bottom: 40px;
+    width: 2px;
+    background-color: rgba(25, 109, 255, 0.2);
+    transform: translateX(-50%);
+    z-index: 0;
+  }
+`;
+
+const ProcessCard = styled.div<{ isHighlighted?: boolean; isOffset?: boolean }>`
+  background-color: ${props => props.isHighlighted ? 'var(--primary-color)' : 'var(--light-color)'};
   border-radius: 8px;
-  padding: 30px;
+  padding: 24px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  border: 1px solid ${props => props.isHighlighted ? 'var(--primary-color)' : 'rgba(25, 109, 255, 0.1)'};
+  position: relative;
+  z-index: 10;
   transition: all 0.3s ease;
-  height: 100%;
+  
+  ${props => props.isOffset && `
+    @media (min-width: 768px) {
+      transform: translateY(64px);
+    }
+  `}
+  
+  ${props => props.isHighlighted && `
+    @media (min-width: 768px) {
+      grid-column: span 2;
+      max-width: 400px;
+      margin: 48px auto 0;
+    }
+  `}
   
   &:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+    border-color: ${props => props.isHighlighted ? 'var(--primary-color)' : 'rgba(25, 109, 255, 0.3)'};
   }
 `;
 
-const IconWrapper = styled.div`
-  width: 60px;
-  height: 60px;
-  background-color: var(--primary-color);
+const CardHeader = styled.div`
+  display: flex;
+  align-items: center;
+  margin-bottom: 16px;
+`;
+
+const StepNumber = styled.div<{ isHighlighted?: boolean }>`
+  width: 48px;
+  height: 48px;
   border-radius: 50%;
+  background-color: ${props => props.isHighlighted ? 'var(--light-color)' : 'var(--primary-color)'};
+  color: ${props => props.isHighlighted ? 'var(--primary-color)' : 'var(--light-color)'};
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-bottom: 20px;
+  font-size: 20px;
+  font-weight: 700;
+  margin-right: 16px;
+  flex-shrink: 0;
+`;
+
+const CardTitle = styled.h3<{ isHighlighted?: boolean }>`
+  font-size: 20px;
+  font-weight: 600;
+  color: ${props => props.isHighlighted ? 'var(--light-color)' : 'var(--primary-color)'};
+  margin: 0;
+  padding-right: 40px;
+  text-align: left;
   
-  svg {
-    width: 30px;
-    height: 30px;
-    color: var(--light-color);
+  @media (max-width: 767px) {
+    padding-right: 0;
   }
 `;
 
-const AdvantageTitle = styled.h3`
-  font-size: 20px;
-  font-weight: 600;
-  margin-bottom: 10px;
+const CardContent = styled.div`
+  padding-left: 64px;
 `;
 
-const AdvantageDescription = styled.p`
-  color: var(--dark-gray);
+const CardDescription = styled.p<{ isHighlighted?: boolean }>`
+  color: ${props => props.isHighlighted ? 'rgba(255, 255, 255, 0.8)' : 'var(--dark-gray)'};
   line-height: 1.6;
+  margin: 0;
 `;
 
-const advantagesData: AdvantageItem[] = [
-    {
-        id: '1',
-        title: 'Легендарное качество',
-        description: 'Kawasaki - это более 100 лет опыта в производстве мотоциклов и безупречная репутация на мировом рынке.',
-        icon: 'quality'
-    },
-    {
-        id: '2',
-        title: 'Инновационные технологии',
-        description: 'Передовые разработки и инновационные решения, которые делают каждый мотоцикл Kawasaki уникальным.',
-        icon: 'variety'
-    },
-    {
-        id: '3',
-        title: 'Гарантия и поддержка',
-        description: 'Официальная гарантия и профессиональное сервисное обслуживание от авторизованных дилеров.',
-        icon: 'warranty'
-    }
-];
+const CardLink = styled.a`
+  color: var(--primary-color);
+  text-decoration: none;
+  
+  &:hover {
+    text-decoration: underline;
+  }
+`;
 
-const getIcon = (iconName: string) => {
-    switch (iconName) {
-        case 'quality':
-            return (
-                <svg viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z" />
+const CardIcon = styled.div<{ isHighlighted?: boolean }>`
+  position: absolute;
+  top: 24px;
+  right: 24px;
+  color: ${props => props.isHighlighted ? 'var(--light-color)' : 'var(--primary-color)'};
+  
+  svg {
+    width: 40px;
+    height: 40px;
+  }
+`;
+
+const Process: React.FC = () => {
+  return (
+    <ProcessSection id="advantages">
+      <div className="container">
+        <SectionTitle>Процесс <span>покупки мотоцикла</span></SectionTitle>
+        
+        <ProcessContainer>
+          <ConnectingLine />
+          
+          <ProcessGrid>
+            {/* Шаг 1 */}
+            <ProcessCard>
+              <CardHeader>
+                <StepNumber>1</StepNumber>
+                <CardTitle>Оставьте заявку</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <CardDescription>
+                  Оставьте заявку на сайте или позвоните нам по телефону.
+                </CardDescription>
+              </CardContent>
+              <CardIcon>
+                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
                 </svg>
-            );
-        case 'price':
-            return (
-                <svg viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M12,2A10,10 0 0,1 22,12A10,10 0 0,1 12,22A10,10 0 0,1 2,12A10,10 0 0,1 12,2M12,4A8,8 0 0,0 4,12A8,8 0 0,0 12,20A8,8 0 0,0 20,12A8,8 0 0,0 12,4M11,17V16H9V14H13V13H10A1,1 0 0,1 9,12V9A1,1 0 0,1 10,8H11V7H13V8H15V10H11V11H14A1,1 0 0,1 15,12V15A1,1 0 0,1 14,16H13V17H11Z" />
+              </CardIcon>
+            </ProcessCard>
+
+            {/* Шаг 2 */}
+            <ProcessCard isOffset>
+              <CardHeader>
+                <StepNumber>2</StepNumber>
+                <CardTitle>Бесплатная консультация</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <CardDescription>
+                  Наш специалист поможет вам с выбором и ответит на все вопросы.
+                </CardDescription>
+              </CardContent>
+              <CardIcon>
+                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M17 8h2a2 2 0 012 2v6a2 2 0 01-2 2h-2v4l-4-4H9a1.994 1.994 0 01-1.414-.586m0 0L11 14h4a2 2 0 002-2V6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2v4l.586-.586z" />
                 </svg>
-            );
-        case 'variety':
-            return (
-                <svg viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M19,5V7H15V5H19M9,5V11H5V5H9M19,13V19H15V13H19M9,17V19H5V17H9M21,3H13V9H21V3M11,3H3V13H11V3M21,11H13V21H21V11M11,15H3V21H11V15Z" />
+              </CardIcon>
+            </ProcessCard>
+
+            {/* Шаг 3 */}
+            <ProcessCard>
+              <CardHeader>
+                <StepNumber>3</StepNumber>
+                <CardTitle>Заключаем договор</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <CardDescription>
+                  Заключаем договор с предоплатой всего 10%.{' '}
+                  <CardLink href="/placeholder/download/contract.pdf" download>
+                    Скачать образец договора
+                  </CardLink>
+                </CardDescription>
+              </CardContent>
+              <CardIcon>
+                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
                 </svg>
-            );
-        case 'warranty':
-            return (
-                <svg viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M12,1L3,5V11C3,16.55 6.84,21.74 12,23C17.16,21.74 21,16.55 21,11V5L12,1M12,7C13.4,7 14.8,8.1 14.8,9.5V11C15.4,11 16,11.6 16,12.3V15.8C16,16.4 15.4,17 14.7,17H9.2C8.6,17 8,16.4 8,15.7V12.2C8,11.6 8.6,11 9.2,11V9.5C9.2,8.1 10.6,7 12,7M12,8.2C11.2,8.2 10.5,8.7 10.5,9.5V11H13.5V9.5C13.5,8.7 12.8,8.2 12,8.2Z" />
+              </CardIcon>
+            </ProcessCard>
+
+            {/* Шаг 4 */}
+            <ProcessCard isOffset>
+              <CardHeader>
+                <StepNumber>4</StepNumber>
+                <CardTitle>Мы берем на себя все заботы</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <CardDescription>
+                  Берём на себя доставку и все документы: Евросоюз, Россия, Таможня и регистрация.
+                </CardDescription>
+              </CardContent>
+              <CardIcon>
+                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9 17a2 2 0 11-4 0 2 2 0 014 0zM19 17a2 2 0 11-4 0 2 2 0 014 0z" />
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M13 16V6a1 1 0 00-1-1H4a1 1 0 00-1 1v10a1 1 0 001 1h1m8-1a1 1 0 01-1 1H9m4-1V8a1 1 0 011-1h2.586a1 1 0 01.707.293l3.414 3.414a1 1 0 01.293.707V16a1 1 0 01-1 1h-1m-6-1a1 1 0 001 1h1M5 17a2 2 0 104 0m-4 0a2 2 0 114 0m6 0a2 2 0 104 0m-4 0a2 2 0 114 0" />
                 </svg>
-            );
-        case 'parts':
-            return (
-                <svg viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M7,2H17A2,2 0 0,1 19,4V20A2,2 0 0,1 17,22H7A2,2 0 0,1 5,20V4A2,2 0 0,1 7,2M7,4V8H17V4H7M7,10V12H9V10H7M11,10V12H13V10H11M15,10V12H17V10H15M7,14V16H9V14H7M11,14V16H13V14H11M15,14V16H17V14H15M7,18V20H9V18H7M11,18V20H13V18H11M15,18V20H17V18H15Z" />
-                </svg>
-            );
-        case 'support':
-            return (
-                <svg viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M12,1C7,1 3,5 3,10V17A3,3 0 0,0 6,20H9V12H5V10A7,7 0 0,1 12,3A7,7 0 0,1 19,10V12H15V20H18A3,3 0 0,0 21,17V10C21,5 17,1 12,1Z" />
-                </svg>
-            );
-        default:
-            return (
-                <svg viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M12,2A10,10 0 0,1 22,12A10,10 0 0,1 12,22A10,10 0 0,1 2,12A10,10 0 0,1 12,2M12,4A8,8 0 0,0 4,12A8,8 0 0,0 12,20A8,8 0 0,0 20,12A8,8 0 0,0 12,4Z" />
-                </svg>
-            );
-    }
+              </CardIcon>
+            </ProcessCard>
+
+            {/* Шаг 5 */}
+            <ProcessCard isHighlighted>
+              <CardHeader>
+                <StepNumber isHighlighted>5</StepNumber>
+                <CardTitle isHighlighted>Получите ваш мотоцикл</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <CardDescription isHighlighted>
+                  Всего 3 недели — и мотоцикл у вас!
+                </CardDescription>
+              </CardContent>
+            </ProcessCard>
+          </ProcessGrid>
+        </ProcessContainer>
+      </div>
+    </ProcessSection>
+  );
 };
 
-const Advantages: React.FC = () => {
-    return (
-        <AdvantagesSection id="advantages">
-            <div className="container">
-                <SectionTitle>Наши <span>преимущества</span></SectionTitle>
-                <AdvantagesGrid>
-                    {advantagesData.map((advantage) => (
-                        <AdvantageCard key={advantage.id}>
-                            <IconWrapper>
-                                {getIcon(advantage.icon)}
-                            </IconWrapper>
-                            <AdvantageTitle>{advantage.title}</AdvantageTitle>
-                            <AdvantageDescription>{advantage.description}</AdvantageDescription>
-                        </AdvantageCard>
-                    ))}
-                </AdvantagesGrid>
-            </div>
-        </AdvantagesSection>
-    );
-};
-
-export default Advantages;
+export default Process;

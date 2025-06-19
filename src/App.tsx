@@ -3,7 +3,7 @@ import { Helmet } from 'react-helmet-async';
 import GlobalStyles from './styles/GlobalStyles';
 import Header from './components/Header';
 import Hero from './components/Hero';
-import Advantages from './components/Advantages';
+import Process from './components/Advantages';
 import Catalog from './components/Catalog';
 import CatalogRequest from './components/CatalogRequest';
 import Cases from './components/Cases';
@@ -63,7 +63,7 @@ const App = (): JSX.Element => {
       <Header />
       <main>
         <Hero />
-        <Advantages />
+        <Process />
         <Catalog />
         <Cases />
         <Reviews />
