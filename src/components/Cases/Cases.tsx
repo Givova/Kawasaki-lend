@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import { CaseItem } from '../../types';
 
 const CasesSection = styled.section`
-  padding: 80px 0;
+  padding: 40px 0;
   background-color: var(--gray-color);
 `;
 

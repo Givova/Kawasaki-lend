@@ -5,6 +5,7 @@ export interface ProductModel {
     name: string;
     image: string;
     price: string;
+    category: string;
     /* description: string; */
     features: string[];
     images?: string[];

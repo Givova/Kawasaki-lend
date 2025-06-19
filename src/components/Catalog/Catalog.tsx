@@ -136,14 +136,46 @@ const ProductImage = styled.div`
 `;
 
 const ProductInfo = styled.div`
-  /* padding: 20px; */ /* Удалено */
+  display: flex;
+  flex-direction: column;
+`;
+
+const TextContent = styled.div`
+  padding: 20px 20px 0;
+`;
+
+const BottomContent = styled.div`
+  padding: 0 20px;
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 20px;
+  margin: 20px 0;
 `;
 
 const ProductName = styled.h3`
   font-size: 20px;
   font-weight: 600;
-  margin-bottom: 10px;
-  padding: 0 20px; /* Добавлено */
+  margin: 0 0 8px;
+  color: #1e293b;
+  line-height: 1.2;
+`;
+
+const BrandName = styled.span`
+  color: #196dff;
+  font-weight: 700;
+`;
+
+const ModelName = styled.span`
+  color: #1e293b;
+`;
+
+const CategoryText = styled.span`
+  display: block;
+  color: #64748b;
+  font-size: 14px;
+  font-weight: 500;
+  margin-top: 4px;
 `;
 
 const ProductDescription = styled.p`
@@ -157,21 +189,14 @@ const ProductPrice = styled.div`
   font-size: 22px;
   font-weight: 700;
   color: var(--primary-color);
-  margin-bottom: 15px;
-  padding: 0 20px; /* Добавлено */
+  margin: 0;
 `;
 
 /* Контейнер таблицы */
 const ProductSpecsContainer = styled.div`
-  margin-top: 20px; /* Увеличенный отступ сверху */
-  margin-bottom: 20px; /* Увеличенный отступ снизу */
-  background-color: #f9fafb; /* bg-gray-50 */
-  /* Для тёмной темы: */
-  /* background-color: #0f172a; */
-  // margin-left: -20px; /* Компенсация padding ProductInfo для растягивания на всю ширину */
-  // margin-right: -20px; /* Компенсация padding ProductInfo для растягивания на всю ширину */
-  width: calc(100% + 40px); /* Занимаем всю доступную ширину */
-  /* Удалены position, left, right, top, box-sizing, outline */
+  margin-top: 20px;
+  width: 100%;
+  background-color: #f9fafb;
 `;
 
 /* Сама таблица */
@@ -228,19 +253,31 @@ const MoreInfoButton = styled.a`
   border-radius: 30px;
   font-weight: 500;
   transition: all 0.3s ease;
-  margin: 15px 20px 20px; /* Изменены отступы: 15px сверху, 20px по бокам, 20px снизу */
+  margin: 0;
+  margin-left: auto;
   
   &:hover {
     background-color: #2563eb;
+  }
+
+  @media (max-width: 480px) {
+    margin-left: 0;
+    width: 100%;
+    text-align: center;
   }
 `;
 
 const CatalogButtonWrapper = styled.div`
   text-align: center;
+  display: flex;
+  justify-content: center;
 `;
 
 const CatalogButton = styled.a`
-  display: inline-block;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
   background-color: #196dff;
   color: var(--light-color);
   padding: 12px 24px;
@@ -335,7 +372,7 @@ const productsData: ProductModel[] = [
   {
     id: '1',
     name: 'Kawasaki H2R',
-    
+    category: 'Спортбайк',
     price: '6 500 000 ₽',
     features: [
       '998 см³', '310 л.с. (228 кВт)',
@@ -352,7 +389,8 @@ const productsData: ProductModel[] = [
   {
     id: '2',
     name: 'Kawasaki Ninja 650',
-    price: 'от 1 450 000 ₽',
+    category: 'Спортбайк',
+    price: '1 450 000 ₽',
     features: [
       '649 см³',
       '50 л.с.',
@@ -371,6 +409,7 @@ const productsData: ProductModel[] = [
   {
     id: '3',
     name: 'Kawasaki NINJA 1000SX',
+    category: 'Спорт-турист',
     price: '2 100 000 ₽',
     features: [
       '1000 см³',
@@ -390,6 +429,7 @@ const productsData: ProductModel[] = [
   {
     id: '4',
     name: 'Kawasaki Vulcan S',
+    category: 'Круизер',
     price: '900 000 ₽',
     features: [
       '600 см³', '61 л.с.',
@@ -406,6 +446,7 @@ const productsData: ProductModel[] = [
   {
     id: '5',
     name: 'Kawasaki Ninja 400ABS',
+    category: 'Спортбайк',
     price: '1 200 000 ₽',
     features: [
       '398 см³',
@@ -424,6 +465,7 @@ const productsData: ProductModel[] = [
   {
     id: '6',
     name: 'Kawasaki Ninja 300ABS',
+    category: 'Спортбайк',
     price: '1 600 000 ₽',
     features: [
       '296 см³',
@@ -436,7 +478,6 @@ const productsData: ProductModel[] = [
     images: [
       '/images/300ABS/1.webp',
       '/images/300ABS/2.webp',
-    
     ]
   }
 ];
@@ -488,7 +529,15 @@ const Catalog: React.FC = () => {
                 />
               )}
               <ProductInfo>
-                <ProductName>{product.name}</ProductName>
+                <TextContent>
+                  <ProductName>
+                    <BrandName>Kawasaki</BrandName>{' '}
+                    <ModelName>
+                      {product.name.replace('Kawasaki ', '')}
+                    </ModelName>
+                    <CategoryText>{product.category}</CategoryText>
+                  </ProductName>
+                </TextContent>
                 <ProductSpecsContainer>
                   <FeaturesTable>
                     <tbody>
@@ -505,8 +554,12 @@ const Catalog: React.FC = () => {
                     </tbody>
                   </FeaturesTable>
                 </ProductSpecsContainer>
-                <ProductPrice>{product.price}</ProductPrice>
-                <MoreInfoButton href={`https://wa.me/79203383324?text=Здравствуйте,%20хочу%20узнать%20больше%20о%20мотоцикле%20Kawasaki%20${encodeURIComponent(product.name)}`}>Узнать больше</MoreInfoButton>
+                <BottomContent>
+                  <ProductPrice>{product.price}</ProductPrice>
+                  <MoreInfoButton href={`https://wa.me/79203383324?text=Здравствуйте,%20хочу%20узнать%20больше%20о%20мотоцикле%20Kawasaki%20${encodeURIComponent(product.name)}`}>
+                    Узнать больше
+                  </MoreInfoButton>
+                </BottomContent>
               </ProductInfo>
             </ProductCard>
           ))}
