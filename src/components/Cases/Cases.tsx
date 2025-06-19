@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import styled from 'styled-components';
 import { CaseItem } from '../../types';
 
@@ -17,7 +17,11 @@ const SectionTitle = styled.h2`
     color: var(--primary-color);
   }
   
-  @media (max-width: 768px) {
+  @media (max-width: 992px) {
+    font-size: 32px;
+  }
+  
+  @media (max-width: 576px) {
     font-size: 28px;
   }
 `;
@@ -30,6 +34,11 @@ const SectionSubtitle = styled.p`
   max-width: 700px;
   margin-left: auto;
   margin-right: auto;
+
+  @media (max-width: 992px) {
+    font-size: 16px;
+    margin-bottom: 40px;
+  }
 `;
 
 const CasesTabs = styled.div`
@@ -62,11 +71,10 @@ const CasesGrid = styled.div`
   gap: 20px;
   
   @media (max-width: 992px) {
-    grid-template-columns: repeat(2, 1fr);
-  }
-  
-  @media (max-width: 576px) {
     grid-template-columns: 1fr;
+    gap: 30px;
+    max-width: 400px;
+    margin: 0 auto;
   }
 `;
 
@@ -81,10 +89,21 @@ const CaseCard = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: stretch;
+  max-width: 220px;
+  aspect-ratio: 9/16;
+  margin: 0 auto;
   
   &:hover {
     transform: translateY(-5px);
     box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+  }
+
+  @media (max-width: 992px) {
+    max-width: 100%;
+    width: 100%;
+    margin: 0;
+    height: auto;
+    aspect-ratio: 9/16;
   }
 `;
 
@@ -244,8 +263,12 @@ const verticalVideos: CaseItem[] = [
   }
 ];
 
-const AutoPlayVideo: React.FC<{ src: string }> = ({ src }) => {
+const AutoPlayVideo = React.forwardRef<HTMLVideoElement, { src: string }>(({ src }, ref) => {
   const videoRef = React.useRef<HTMLVideoElement | null>(null);
+  
+  // Объединяем внутренний ref с внешним
+  React.useImperativeHandle(ref, () => videoRef.current!, []);
+  
   React.useEffect(() => {
     const video = videoRef.current;
     if (!video) return;
@@ -278,11 +301,30 @@ const AutoPlayVideo: React.FC<{ src: string }> = ({ src }) => {
       style={{ objectFit: 'cover', borderRadius: 8 }}
     />
   );
-};
+});
 
 const Cases: React.FC = () => {
   const [modalOpen, setModalOpen] = useState(false);
   const [selectedCase, setSelectedCase] = useState<CaseItem | null>(null);
+  const modalVideoRef = useRef<HTMLVideoElement | null>(null);
+  const cardVideoRefs = useRef<(HTMLVideoElement | null)[]>([]);
+
+  // Обработчик нажатия клавиши Escape
+  useEffect(() => {
+    const handleEscape = (event: KeyboardEvent) => {
+      if (event.key === 'Escape' && modalOpen) {
+        closeModal();
+      }
+    };
+
+    if (modalOpen) {
+      document.addEventListener('keydown', handleEscape);
+    }
+
+    return () => {
+      document.removeEventListener('keydown', handleEscape);
+    };
+  }, [modalOpen]);
 
   const openModal = (caseItem: CaseItem) => {
     setSelectedCase(caseItem);
@@ -291,6 +333,20 @@ const Cases: React.FC = () => {
   };
 
   const closeModal = () => {
+    // Останавливаем видео в модальном окне
+    if (modalVideoRef.current) {
+      modalVideoRef.current.pause();
+      modalVideoRef.current.currentTime = 0;
+    }
+    
+    // Останавливаем все видео в карточках
+    cardVideoRefs.current.forEach(videoRef => {
+      if (videoRef) {
+        videoRef.pause();
+        videoRef.currentTime = 0;
+      }
+    });
+    
     setModalOpen(false);
     document.body.style.overflow = 'auto';
   };
@@ -303,20 +359,19 @@ const Cases: React.FC = () => {
           Посмотрите видео наших мотоциклов в действии
         </SectionSubtitle>
 
-        <CasesGrid style={{ gridTemplateColumns: 'repeat(3, 1fr)', gap: '20px' }}>
-          {verticalVideos.map((caseItem) => (
+        <CasesGrid>
+          {verticalVideos.map((caseItem, index) => (
             <CaseCard 
               key={caseItem.id} 
-              style={{ 
-                maxWidth: 220, 
-                aspectRatio: '9/16', 
-                margin: '0 auto',
-                height: 'auto'
-              }} 
               onClick={() => openModal(caseItem)}
             >
               <CaseImage noOverlay>
-                <AutoPlayVideo src={caseItem.image} />
+                <AutoPlayVideo 
+                  ref={(el) => {
+                    cardVideoRefs.current[index] = el;
+                  }}
+                  src={caseItem.image} 
+                />
               </CaseImage>
             </CaseCard>
           ))}
@@ -327,6 +382,7 @@ const Cases: React.FC = () => {
             <CloseButton onClick={closeModal}>&times;</CloseButton>
             {selectedCase && (
               <video
+                ref={modalVideoRef}
                 src={selectedCase.image}
                 controls
                 autoPlay

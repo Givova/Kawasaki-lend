@@ -12,6 +12,12 @@ const HeroSection = styled.section`
   position: relative;
   overflow: hidden;
 
+  @media (max-width: 768px) {
+    background-position: 80% center;
+    background-attachment: scroll;
+    padding: 150px 0 120px;
+  }
+
   &::before {
     content: '';
     position: absolute;

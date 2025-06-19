@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import styled from 'styled-components';
-import { ReviewItem } from '../../types';
+import { reviews } from './reviewsData';
 
 const ReviewsSection = styled.section`
   padding: 80px 0;
@@ -58,50 +58,41 @@ const SectionSubtitle = styled.p`
 `;
 
 const ReviewsContainer = styled.div`
-  max-width: 900px;
+  max-width: 1000px;
   margin: 0 auto;
   position: relative;
-  padding: 0;
+  padding: 0 20px;
 `;
 
 const ReviewsWrapper = styled.div`
   overflow: hidden;
-  padding: 0;
-  margin-bottom: 20px;
+  padding: 20px 0;
   position: relative;
-  width: 100%;
-  border-radius: 15px;
-  @media (max-width: 600px) {
-    padding: 20px 0;
-  }
 `;
 
-const ReviewsSlider = styled.div<{ offset: number; count: number }>`
+const ReviewsSlider = styled.div<{ offset: number }>`
   display: flex;
   transition: transform 0.5s ease;
   transform: translateX(${props => props.offset}px);
-  ${props => props.count === 1 && 'justify-content: center;'}
-  width: 100%;
+  gap: 30px;
 `;
 
 const ReviewCard = styled.div`
   background-color: white;
   border-radius: 15px;
-  padding: 20px;
+  padding: 25px;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
-  flex: 0 0 100%;
-  width: 100%;
-  min-width: 100%;
+  flex: 0 0 calc(50% - 15px);
+  min-width: calc(50% - 15px);
   box-sizing: border-box;
-  margin-right: 0;
-  margin-left: 0;
   transition: all 0.3s ease;
   border: 1px solid rgba(0, 0, 0, 0.05);
-  @media (min-width: 768px) {
-    padding: 35px;
-  }
-  @media (max-width: 480px) {
-    padding: 15px 15px;
+  position: relative;
+  
+  @media (max-width: 768px) {
+    flex: 0 0 100%;
+    min-width: 100%;
+    padding: 20px;
   }
   
   &:hover {
@@ -110,357 +101,311 @@ const ReviewCard = styled.div`
   }
 `;
 
+const AvitoBadge = styled.a`
+  position: absolute;
+  top: 25px;
+  right: 15px;
+  background: linear-gradient(135deg, #00AAFF 0%, #0088FF 100%);
+  color: white;
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 500;
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  transition: all 0.3s ease;
+  z-index: 2;
+
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(0, 136, 255, 0.3);
+  }
+
+  img {
+    width: 16px;
+    height: 16px;
+    object-fit: contain;
+  }
+
+  @media (max-width: 768px) {
+    padding: 8px;
+    border-radius: 50%;
+    
+    span {
+      display: none;
+    }
+    
+    img {
+      width: 20px;
+      height: 20px;
+    }
+  }
+`;
+
 const ReviewHeader = styled.div`
   display: flex;
   align-items: center;
-  margin-bottom: 20px;
-  
-  @media (max-width: 480px) {
-    flex-direction: column;
-    align-items: flex-start;
-  }
-`;
-
-const Avatar = styled.div`
-  width: 60px;
-  height: 60px;
-  border-radius: 50%;
-  overflow: hidden;
-  margin-right: 15px;
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-  border: 3px solid white;
-  
-  img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-  }
-  
-  @media (max-width: 480px) {
-    margin-bottom: 10px;
-  }
+  margin-bottom: 15px;
 `;
 
 const DefaultAvatar = styled.div`
-  width: 60px;
-  height: 60px;
+  width: 45px;
+  height: 45px;
   border-radius: 50%;
   background: linear-gradient(135deg, var(--primary-color) 0%, #38b2ac 100%);
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-right: 15px;
+  margin-right: 12px;
+  margin-top: -15px;
   color: white;
-  font-size: 24px;
+  font-size: 18px;
   font-weight: 500;
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-  
-  @media (max-width: 480px) {
-    margin-bottom: 10px;
-  }
 `;
 
 const ReviewInfo = styled.div`
   flex: 1;
-  
-  @media (max-width: 480px) {
-    width: 100%;
-  }
 `;
 
 const AuthorName = styled.h3`
-  font-size: 18px;
+  font-size: 16px;
   font-weight: 600;
-  margin-bottom: 5px;
+  margin-bottom: 3px;
   color: var(--text-color);
-  
-  @media (max-width: 480px) {
-    font-size: 16px;
-  }
 `;
 
 const ReviewDate = styled.p`
-  font-size: 14px;
+  font-size: 13px;
   color: var(--dark-gray);
-  
-  @media (max-width: 480px) {
-    font-size: 12px;
-  }
 `;
 
 const ReviewRating = styled.div`
   display: flex;
-  margin-bottom: 15px;
+  margin-bottom: 12px;
 `;
 
 const Star = styled.span<{ filled: boolean }>`
   color: ${props => props.filled ? '#FFD700' : '#e0e0e0'};
-  font-size: 18px;
+  font-size: 16px;
   margin-right: 2px;
-  
-  @media (max-width: 480px) {
-    font-size: 16px;
-  }
 `;
 
 const ReviewText = styled.p`
-  font-size: 16px;
-  line-height: 1.6;
+  font-size: 15px;
+  line-height: 1.5;
   color: var(--text-color);
-  margin-bottom: 20px;
-  word-break: break-word;
+  margin-bottom: 12px;
+  display: -webkit-box;
+  -webkit-line-clamp: 4;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+`;
+
+const ProductName = styled.div`
+  font-size: 13px;
+  color: var(--dark-gray);
+  padding-top: 12px;
+  border-top: 1px solid #eee;
+`;
+
+const ReplyContainer = styled.div`
+  margin-top: 12px;
+  padding: 12px;
+  background-color: #f8f9fa;
+  border-radius: 8px;
+`;
+
+const ReplyHeader = styled.div`
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 8px;
+  font-size: 13px;
   
-  @media (max-width: 480px) {
-    font-size: 14px;
-    line-height: 1.5;
+  span:first-child {
+    font-weight: 600;
+    color: var(--primary-color);
+  }
+  
+  span:last-child {
+    color: var(--dark-gray);
   }
 `;
 
-const SourceLogo = styled.div`
-  display: flex;
-  align-items: center;
-  
-  a {
-    display: flex;
-    align-items: center;
-    text-decoration: none;
-    transition: all 0.3s ease;
-    padding: 8px 12px;
-    border-radius: 8px;
-    background-color: #f8f8f8;
-    
-    &:hover {
-      background-color: #f0f0f0;
-    }
-  }
-  
-  img {
-    height: 24px;
-  }
-  
-  span {
-    font-size: 14px;
-    color: var(--dark-gray);
-    margin-left: 8px;
-  }
-  
-  @media (max-width: 480px) {
-    img {
-      height: 20px;
-    }
-    
-    span {
-      font-size: 12px;
-    }
-  }
+const ReplyText = styled.p`
+  font-size: 13px;
+  color: var(--text-color);
+  line-height: 1.4;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
 `;
 
 const SliderControls = styled.div`
   display: flex;
   justify-content: center;
+  gap: 10px;
   margin-top: 30px;
-  gap: 15px;
 `;
 
-const SliderButton = styled.button<{ disabled?: boolean }>`
-  width: 48px;
-  height: 48px;
+const SliderButton = styled.button<{ direction?: 'prev' | 'next' }>`
+  background-color: white;
+  border: 2px solid var(--primary-color);
+  color: var(--primary-color);
+  width: 40px;
+  height: 40px;
   border-radius: 50%;
-  background-color: ${props => props.disabled ? '#f5f5f5' : 'white'};
-  border: 1px solid ${props => props.disabled ? '#e0e0e0' : '#ddd'};
-  color: ${props => props.disabled ? '#ccc' : 'var(--text-color)'};
   display: flex;
   align-items: center;
   justify-content: center;
-  cursor: ${props => props.disabled ? 'not-allowed' : 'pointer'};
-  transition: all 0.3s ease;
-  box-shadow: ${props => props.disabled ? 'none' : '0 4px 10px rgba(0, 0, 0, 0.05)'};
-  
-  &:hover:not(:disabled) {
-    background-color: var(--primary-color);
-    color: var(--light-color);
-    border-color: var(--primary-color);
-    transform: translateY(-2px);
-  }
-  
-  svg {
-    width: 20px;
-    height: 20px;
-  }
-  
-  @media (max-width: 480px) {
-    width: 40px;
-    height: 40px;
-  }
-`;
-
-const SliderDots = styled.div`
-  display: flex;
-  justify-content: center;
-  gap: 8px;
-  margin-top: 20px;
-`;
-
-const SliderDot = styled.button<{ active: boolean }>`
-  width: ${props => props.active ? '12px' : '10px'};
-  height: ${props => props.active ? '12px' : '10px'};
-  border-radius: 50%;
-  background-color: ${props => props.active ? 'var(--primary-color)' : '#e0e0e0'};
-  border: none;
-  padding: 0;
   cursor: pointer;
   transition: all 0.3s ease;
   
   &:hover {
-    background-color: ${props => props.active ? 'var(--primary-color)' : '#ccc'};
-    transform: ${props => props.active ? 'scale(1.2)' : 'scale(1.1)'};
+    background-color: var(--primary-color);
+    color: white;
+  }
+  
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    
+    &:hover {
+      background-color: white;
+      color: var(--primary-color);
+    }
+  }
+  
+  &::before {
+    content: ${props => props.direction === 'prev' ? '"←"' : '"→"'};
+    font-size: 20px;
   }
 `;
-
-const reviewsData: ReviewItem[] = [
-  {
-    id: '1',
-    author: 'Александр К.',
-    date: '15.03.2024',
-    rating: 5,
-    text: 'Приобрел Kawasaki Ninja 400 в этом салоне. Отличный сервис, профессиональные консультации и быстрая доставка. Мотоцикл превзошел все ожидания - идеальное сочетание мощности и управляемости.',
-    source: 'vk',
-    sourceUrl: '#'
-  },
-  {
-    id: '2',
-    author: 'Елена М.',
-    date: '10.03.2024',
-    rating: 5,
-    text: 'Купила Kawasaki Versys 650 для путешествий. Персонал помог подобрать идеальную модель, все документы оформили быстро. Мотоцикл просто замечательный - комфортный и надежный.',
-    source: 'telegram',
-    sourceUrl: '#'
-  },
-  {
-    id: '3',
-    author: 'Дмитрий В.',
-    date: '05.03.2024',
-    rating: 5,
-    text: 'Обратился за Kawasaki Z900. Отличный выбор моделей, грамотные консультации и приятные цены. Мотоцикл просто супер - мощный, стильный и с отличной электроникой.',
-    source: 'instagram',
-    sourceUrl: '#'
-  }
-];
 
 const Reviews: React.FC = () => {
   const [currentSlide, setCurrentSlide] = useState(0);
   const [isMobile, setIsMobile] = useState(false);
+  const [touchStart, setTouchStart] = useState(0);
+  const [touchEnd, setTouchEnd] = useState(0);
   const sliderRef = useRef<HTMLDivElement>(null);
-  const [touchStart, setTouchStart] = useState<number | null>(null);
-  const [touchEnd, setTouchEnd] = useState<number | null>(null);
+  const [isTransitioning, setIsTransitioning] = useState(false);
 
-  useEffect(() => {
-    const checkMobile = () => {
-      setIsMobile(window.innerWidth <= 768);
-    };
-
-    checkMobile();
-    window.addEventListener('resize', checkMobile);
-
-    return () => {
-      window.removeEventListener('resize', checkMobile);
-    };
-  }, []);
-
-  const updateWidth = () => {
-    if (sliderRef.current) {
-      const width = sliderRef.current.offsetWidth;
-      return width;
-    }
-    return 0;
+  const checkMobile = () => {
+    setIsMobile(window.innerWidth <= 768);
   };
 
+  useEffect(() => {
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
+
+  const getItemsPerSlide = () => {
+    if (window.innerWidth <= 768) return 1;
+    return 2;
+  };
+
+  const totalSlides = Math.ceil(reviews.length / getItemsPerSlide());
+
   const nextSlide = () => {
-    setCurrentSlide(prev => (prev + 1) % reviewsData.length);
+    if (isTransitioning) return;
+    setIsTransitioning(true);
+    setCurrentSlide(prev => (prev + 1) % totalSlides);
+    setTimeout(() => setIsTransitioning(false), 500);
   };
 
   const prevSlide = () => {
-    setCurrentSlide(prev => (prev - 1 + reviewsData.length) % reviewsData.length);
+    if (isTransitioning) return;
+    setIsTransitioning(true);
+    setCurrentSlide(prev => (prev - 1 + totalSlides) % totalSlides);
+    setTimeout(() => setIsTransitioning(false), 500);
   };
 
-  const goToSlide = (index: number) => {
-    setCurrentSlide(index);
+  const handleTouchStart = (e: React.TouchEvent) => {
+    setTouchStart(e.touches[0].clientX);
+  };
+
+  const handleTouchMove = (e: React.TouchEvent) => {
+    setTouchEnd(e.touches[0].clientX);
+  };
+
+  const handleTouchEnd = () => {
+    if (!touchStart || !touchEnd) return;
+    const distance = touchStart - touchEnd;
+    const isLeftSwipe = distance > 50;
+    const isRightSwipe = distance < -50;
+
+    if (isLeftSwipe) {
+      nextSlide();
+    }
+    if (isRightSwipe) {
+      prevSlide();
+    }
+
+    setTouchStart(0);
+    setTouchEnd(0);
   };
 
   const renderStars = (rating: number) => {
-    return Array.from({ length: 5 }, (_, i) => (
-      <Star key={i} filled={i < rating}>★</Star>
+    return [...Array(5)].map((_, index) => (
+      <Star key={index} filled={index < rating}>★</Star>
     ));
   };
-
-  useEffect(() => {
-    const handleTouchStart = (e: TouchEvent) => {
-      setTouchStart(e.touches[0].clientX);
-    };
-
-    const handleTouchMove = (e: TouchEvent) => {
-      setTouchEnd(e.touches[0].clientX);
-    };
-
-    const handleTouchEnd = () => {
-      if (!touchStart || !touchEnd) return;
-      const distance = touchStart - touchEnd;
-      const isLeftSwipe = distance > 50;
-      const isRightSwipe = distance < -50;
-
-      if (isLeftSwipe) {
-        nextSlide();
-      }
-      if (isRightSwipe) {
-        prevSlide();
-      }
-
-      setTouchStart(null);
-      setTouchEnd(null);
-    };
-
-    const slider = sliderRef.current;
-    if (slider) {
-      slider.addEventListener('touchstart', handleTouchStart);
-      slider.addEventListener('touchmove', handleTouchMove);
-      slider.addEventListener('touchend', handleTouchEnd);
-    }
-
-    return () => {
-      if (slider) {
-        slider.removeEventListener('touchstart', handleTouchStart);
-        slider.removeEventListener('touchmove', handleTouchMove);
-        slider.removeEventListener('touchend', handleTouchEnd);
-      }
-    };
-  }, [touchStart, touchEnd]);
 
   const getInitialLetter = (name: string): string => {
     return name.charAt(0).toUpperCase();
   };
 
+  const getSlideOffset = () => {
+    if (!sliderRef.current) return 0;
+    const itemsPerSlide = getItemsPerSlide();
+    const containerWidth = sliderRef.current.offsetWidth;
+    const itemWidth = (containerWidth - (itemsPerSlide - 1) * 30) / itemsPerSlide;
+    return -(currentSlide * (itemWidth + 30));
+  };
+
+  // Автоматическое переключение слайдов
+  useEffect(() => {
+    const interval = setInterval(() => {
+      if (!isTransitioning) {
+        nextSlide();
+      }
+    }, 5000);
+    return () => clearInterval(interval);
+  }, [isTransitioning]);
+
   return (
     <ReviewsSection id="reviews">
       <div className="container">
-        <SectionTitle>Отзывы <span>наших клиентов</span></SectionTitle>
+        <SectionTitle>
+          Узнайте, что говорят о нас владельцы мотоциклов <span>Kawasaki</span>
+        </SectionTitle>
         <SectionSubtitle>
-          Узнайте, что говорят о нас владельцы мотоциклов Kawasaki
+          Здесь собраны отзывы о наших услугах и работе с нами
         </SectionSubtitle>
         <ReviewsContainer>
-          <ReviewsWrapper ref={sliderRef}>
-            <ReviewsSlider offset={-currentSlide * updateWidth()} count={reviewsData.length}>
-              {reviewsData.map((review) => (
+          <ReviewsWrapper
+            onTouchStart={handleTouchStart}
+            onTouchMove={handleTouchMove}
+            onTouchEnd={handleTouchEnd}
+          >
+            <ReviewsSlider ref={sliderRef} offset={getSlideOffset()}>
+              {reviews.map((review) => (
                 <ReviewCard key={review.id}>
+                  <AvitoBadge 
+                    href="https://www.avito.ru/brands/i312214092/all/mototsikly_i_mototehnika?gdlkerfdnwq=101&page_from=from_item_card&iid=7337863272&sellerId=0b17a20654f8f463808c4b91f3e7323c" 
+                    target="_blank" 
+                    rel="noopener noreferrer"
+                  >
+                    <img src="/images/avito.png" alt="Avito" />
+                    <span> Avito</span>
+                  </AvitoBadge>
                   <ReviewHeader>
-                    {review.avatar ? (
-                      <Avatar>
-                        <img src={review.avatar} alt={review.author} />
-                      </Avatar>
-                    ) : (
-                      <DefaultAvatar>
-                        {getInitialLetter(review.author)}
-                      </DefaultAvatar>
-                    )}
+                    <DefaultAvatar>
+                      {getInitialLetter(review.author)}
+                    </DefaultAvatar>
                     <ReviewInfo>
                       <AuthorName>{review.author}</AuthorName>
                       <ReviewDate>{review.date}</ReviewDate>
@@ -470,19 +415,36 @@ const Reviews: React.FC = () => {
                     {renderStars(review.rating)}
                   </ReviewRating>
                   <ReviewText>{review.text}</ReviewText>
-                  {review.source && (
-                    <SourceLogo>
-                      <a href={review.sourceUrl || '#'} target="_blank" rel="noopener noreferrer">
-                        <img src={`/images/${review.source}.svg`} alt={review.source} />
-                        <span>{review.source}</span>
-                      </a>
-                    </SourceLogo>
+                  {review.productName && (
+                    <ProductName>{review.productName}</ProductName>
+                  )}
+                  {review.reply && (
+                    <ReplyContainer>
+                      <ReplyHeader>
+                        <span>{review.reply.author}</span>
+                        <span>{review.reply.date}</span>
+                      </ReplyHeader>
+                      <ReplyText>{review.reply.text}</ReplyText>
+                    </ReplyContainer>
                   )}
                 </ReviewCard>
               ))}
             </ReviewsSlider>
           </ReviewsWrapper>
         </ReviewsContainer>
+
+        <SliderControls>
+          <SliderButton
+            direction="prev"
+            onClick={prevSlide}
+            disabled={isTransitioning}
+          />
+          <SliderButton
+            direction="next"
+            onClick={nextSlide}
+            disabled={isTransitioning}
+          />
+        </SliderControls>
       </div>
     </ReviewsSection>
   );

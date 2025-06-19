@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import Lottie from 'lottie-react';
 import JumpWhatsApp from '../../assets/Animation/Jump-WhatsApp.json';
@@ -37,7 +37,7 @@ const Logo = styled.div`
 `;
 
 const Nav = styled.nav`
-  @media (max-width: 768px) {
+  @media (max-width: 992px) {
     display: none;
   }
 `;
@@ -103,14 +103,116 @@ const ShopButton = styled.a`
   }
 `;
 
+const MobileNav = styled.nav<{ isOpen: boolean }>`
+  display: none;
+  position: fixed;
+  top: 0;
+  right: 0;
+  width: 50%;
+  height: 100vh;
+  background-color: var(--light-color);
+  padding: 80px 10px 20px;
+  box-shadow: -4px 0 6px rgba(0, 0, 0, 0.1);
+  transform: translateX(${props => props.isOpen ? '0' : '100%'});
+  transition: transform 0.3s ease-in-out;
+  z-index: 998;
+  display: flex;
+  flex-direction: column;
+
+  @media (max-width: 992px) {
+    display: flex;
+  }
+`;
+
+const MobileNavList = styled.ul`
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+  text-align: left;
+  padding: 0 10px;
+  flex: 1;
+`;
+
+const MobileContactBlock = styled.div`
+  padding: 20px 10px;
+  border-top: 1px solid #eee;
+  text-align: left;
+`;
+
+const MobileContactLabel = styled.p`
+  color: var(--text-color);
+  font-size: 14px;
+  margin-bottom: 8px;
+`;
+
+const MobileContactNumber = styled.a`
+  color: #196dff;
+  font-size: 16px;
+  font-weight: 600;
+  text-decoration: none;
+  display: block;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  
+  &:hover {
+    color: #2563eb;
+  }
+`;
+
+const MobileNavItem = styled.li`
+  font-size: 20px;
+  font-weight: 500;
+  color: var(--text-color);
+  padding: 10px 0;
+  border-bottom: 1px solid #eee;
+
+  &:last-child {
+    border-bottom: none;
+  }
+
+  a {
+    color: inherit;
+    text-decoration: none;
+    display: block;
+    width: 100%;
+    padding-left: 5px;
+
+    &:hover {
+      color: var(--primary-color);
+    }
+  }
+`;
+
+const Overlay = styled.div<{ isOpen: boolean }>`
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  opacity: ${props => props.isOpen ? 1 : 0};
+  visibility: ${props => props.isOpen ? 'visible' : 'hidden'};
+  transition: opacity 0.3s ease-in-out;
+  z-index: 997;
+
+  @media (max-width: 992px) {
+    display: block;
+  }
+`;
+
 const MobileMenuButton = styled.button`
   display: none;
   background: none;
   border: none;
   font-size: 24px;
   color: var(--secondary-color);
+  cursor: pointer;
+  padding: 5px;
+  z-index: 1000;
 
-  @media (max-width: 768px) {
+  @media (max-width: 992px) {
     display: block;
   }
 `;
@@ -127,22 +229,43 @@ const LottieWrapper = styled.div`
   border-radius: 50%;
   box-shadow: none;
   margin-right: -20px;
-  @media (max-width: 768px) {
-    width: 36px;
-    height: 36px;
-    min-width: 36px;
-    min-height: 36px;
-    margin-right: 2px;
+   
+  @media (max-width: 992px) {
+    display: none;
   }
 `;
 
 const Header: React.FC = () => {
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const whatsappMessage = "Здравствуйте, интересует каталог мотоциклов Kawasaki";
+  const whatsappLink = `https://wa.me/79203383324?text=${encodeURIComponent(whatsappMessage)}`;
+
   const scrollToTop = () => {
     window.scrollTo({
       top: 0,
       behavior: 'smooth'
     });
   };
+
+  const toggleMobileMenu = () => {
+    setIsMobileMenuOpen(!isMobileMenuOpen);
+  };
+
+  const closeMobileMenu = () => {
+    setIsMobileMenuOpen(false);
+  };
+
+  const handleNavLinkClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
+    closeMobileMenu();
+  };
+
+  useEffect(() => {
+    if (isMobileMenuOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = 'auto';
+    }
+  }, [isMobileMenuOpen]);
 
   return (
     <HeaderContainer>
@@ -160,16 +283,33 @@ const Header: React.FC = () => {
             </NavList>
           </Nav>
           <div style={{ display: 'flex', alignItems: 'center' }}>
-            <LottieWrapper>
+            <LottieWrapper as="a" href={whatsappLink} target="_blank" rel="noopener noreferrer">
               <Lottie animationData={JumpWhatsApp} loop={true} style={{ width: '100%', height: '100%' }} />
             </LottieWrapper>
-            <ContactButton href="tel:+79203383324">+7 920 338-33-24</ContactButton>
+            <ContactButton href={whatsappLink} target="_blank" rel="noopener noreferrer">+7 920 338-33-24</ContactButton>
           </div>
-          <MobileMenuButton aria-label="Меню">
-            ☰
+          <MobileMenuButton 
+            onClick={toggleMobileMenu} 
+            aria-label="Меню"
+            aria-expanded={isMobileMenuOpen}
+          >
+            {isMobileMenuOpen ? '✕' : '☰'}
           </MobileMenuButton>
         </HeaderInner>
       </div>
+      <Overlay isOpen={isMobileMenuOpen} onClick={closeMobileMenu} />
+      <MobileNav isOpen={isMobileMenuOpen}>
+        <MobileNavList>
+          <MobileNavItem><a href="#catalog" onClick={handleNavLinkClick}>Каталог</a></MobileNavItem>
+          <MobileNavItem><a href="#advantages" onClick={handleNavLinkClick}>Преимущества</a></MobileNavItem>
+          <MobileNavItem><a href="#cases" onClick={handleNavLinkClick}>Кейсы</a></MobileNavItem>
+          <MobileNavItem><a href="#reviews" onClick={handleNavLinkClick}>Отзывы</a></MobileNavItem>
+        </MobileNavList>
+        <MobileContactBlock>
+          <MobileContactLabel>Позвоните нам</MobileContactLabel>
+          <MobileContactNumber href={whatsappLink} target="_blank" rel="noopener noreferrer">+7 920 338-33-24</MobileContactNumber>
+        </MobileContactBlock>
+      </MobileNav>
     </HeaderContainer>
   );
 };

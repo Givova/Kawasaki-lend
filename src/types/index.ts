@@ -28,14 +28,17 @@ export interface CaseItem {
 }
 
 export interface ReviewItem {
-    id: string | number;
+    id: string;
     author: string;
     date: string;
     rating: number;
     text: string;
-    avatar?: string;
-    source?: string;
-    sourceUrl?: string;
+    productName?: string;
+    reply?: {
+        author: string;
+        date: string;
+        text: string;
+    };
 }
 
 export interface StyledProps {
