@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 
 const HeroSection = styled.section`
-  background-image: url('/images/baner.jpg'); /* Ваше фоновое изображение */
+  background-image: url('/images/kawasa.jpg'); /* Ваше фоновое изображение */
   background-size: cover;
   background-position: center 100%; 
   background-repeat: no-repeat;
