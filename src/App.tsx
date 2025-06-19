@@ -54,10 +54,10 @@ const App = (): JSX.Element => {
   return (
     <ErrorBoundary>
       <Helmet>
-        <title>Kawasaki Moto - Официальный дилер мотоциклов Kawasaki</title>
-        <meta name="description" content="Официальный дилер мотоциклов Kawasaki в России. Широкий выбор моделей, гарантия качества, сервисное обслуживание." />
-        <meta name="keywords" content="Kawasaki, мотоциклы, дилер, официальный дилер, мотоциклы Kawasaki" />
-        <link rel="canonical" href="https://kawasaki-moto.ru" />
+        <title>ProTechMoto - Мотоциклы Kawasaki | Профессиональная мототехника</title>
+        <meta name="description" content="ProTechMoto - это мотоциклы Kawasaki. Широкий выбор моделей, качественное обслуживание и лучшие цены." />
+        <meta name="keywords" content="мотоциклы, Kawasaki, ProTechMoto, мототехника, мотосалон" />
+        <link rel="canonical" href="https://protechmoto.ru" />
       </Helmet>
       <GlobalStyles />
       <Header />
