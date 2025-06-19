@@ -9,22 +9,25 @@ const FooterContainer = styled.footer`
 
 const FooterContent = styled.div`
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-start;
   flex-wrap: wrap;
-  gap: 30px;
+  gap: 60px;
   margin-bottom: 40px;
   
   @media (max-width: 768px) {
     flex-direction: column;
+    gap: 30px;
   }
 `;
 
 const FooterColumn = styled.div`
   flex: 1;
-  min-width: 200px;
+  min-width: 220px;
+  max-width: 280px;
   
   @media (max-width: 768px) {
     text-align: center;
+    max-width: 100%;
   }
 `;
 
@@ -96,13 +99,14 @@ const ContactInfo = styled.div`
 `;
 
 const InnLink = styled.a`
-  color: #ccc;
-  transition: color 0.3s ease;
-  cursor: pointer;
+  color: var(--primary-color);
   text-decoration: none;
+  transition: color 0.3s ease;
+  font-size: 14px;
   
   &:hover {
-    color: var(--primary-color);
+    color: var(--primary-color-hover);
+    text-decoration: underline;
   }
 `;
 
@@ -146,6 +150,35 @@ const Copyright = styled.div`
   font-size: 14px;
 `;
 
+const CompanyInfo = styled.div`
+  margin-top: 0;
+`;
+
+const CompanyName = styled.div`
+  color: #888;
+  margin-bottom: 15px;
+  font-size: 14px;
+`;
+
+const CompanyDetails = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+`;
+
+const CompanyBlock = styled.div`
+  background: rgba(255, 255, 255, 0.05);
+  padding: 12px 15px;
+  border-radius: 8px;
+  
+  p {
+    margin: 0;
+    color: #ccc;
+    font-size: 14px;
+    line-height: 1.4;
+  }
+`;
+
 const Footer: React.FC = () => {
   return (
     <FooterContainer>
@@ -156,34 +189,6 @@ const Footer: React.FC = () => {
               ProTech<span>Moto</span>
             </FooterLogo>
             <p>Официальный импортер мотоциклов Kawasaki в России. Продажа и обслуживание мотоциклов.</p>
-            {/* <SocialLinks>
-              <SocialLink href="#" aria-label="Вконтакте">
-                <svg viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-                  <path d="M15.07 2H8.93C3.33 2 2 3.33 2 8.93V15.07C2 20.67 3.33 22 8.93 22H15.07C20.67 22 22 20.67 22 15.07V8.93C22 3.33 20.67 2 15.07 2ZM18.15 16.27H16.69C16.14 16.27 15.97 15.82 14.86 14.72C13.86 13.77 13.49 13.64 13.27 13.64C12.93 13.64 12.83 13.74 12.83 14.17V15.62C12.83 16.08 12.71 16.27 11.83 16.27C10.11 16.27 8.22 15.24 6.92 13.38C5.14 10.82 4.63 8.85 4.63 8.34C4.63 8.07 4.73 7.82 5.19 7.82H6.66C7.14 7.82 7.29 8.03 7.44 8.51C8.24 10.89 9.6 12.95 10.16 12.95C10.37 12.95 10.47 12.85 10.47 12.35V9.77C10.42 8.84 9.97 8.78 9.97 8.32C9.97 8.11 10.14 7.89 10.41 7.89H12.66C13.07 7.89 13.21 8.08 13.21 8.54V11.86C13.21 12.28 13.38 12.42 13.5 12.42C13.71 12.42 13.9 12.28 14.28 11.91C15.41 10.66 16.2 8.77 16.2 8.77C16.3 8.56 16.48 8.37 16.96 8.37H18.42C19.05 8.37 19.14 8.63 19.05 8.95C18.87 9.74 17.25 11.99 17.25 11.99C17.11 12.22 17.04 12.34 17.25 12.6C17.4 12.8 17.9 13.23 18.22 13.59C18.83 14.26 19.29 14.83 19.43 15.26C19.56 15.7 19.33 16.27 18.15 16.27Z" />
-                </svg>
-              </SocialLink>
-              <SocialLink href="#" aria-label="Telegram">
-                <svg viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-                  <path d="M22,6.55a.5.5,0,0,0-.33-.44,1.06,1.06,0,0,0-.65,0A22.47,22.47,0,0,0,3,18.1a1,1,0,0,0,.18.87A.94.94,0,0,0,4,19.4a.49.49,0,0,0,.24-.06,15.9,15.9,0,0,1,6.24-1,16.5,16.5,0,0,1,5.47.93,5.32,5.32,0,0,0,1.12.33,1.29,1.29,0,0,0,1.29-.37A17.52,17.52,0,0,0,22,6.55ZM19,17.34a.37.37,0,0,1-.33.27,3.12,3.12,0,0,1-.83-.26,18.5,18.5,0,0,0-6.08-1,17.62,17.62,0,0,0-6.86,1.08l-.19.06a20.7,20.7,0,0,1,2.14-5.58A22.84,22.84,0,0,1,19,7.36a.4.4,0,0,1,.36.4A16.38,16.38,0,0,1,19,17.34Z" />
-                  <path d="M10.85,15.28A1,1,0,0,0,12,14.48l1.72-3.52a.47.47,0,0,0-.65-.63L9.47,12.26a1,1,0,0,0-.15,1.54Z" />
-                </svg>
-              </SocialLink>
-              <SocialLink href="#" aria-label="Instagram">
-                <svg viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-                  <path d="M12,9.52A2.48,2.48,0,1,0,14.48,12,2.48,2.48,0,0,0,12,9.52Zm9.93-2.45a6.53,6.53,0,0,0-.42-2.26,4,4,0,0,0-2.32-2.32,6.53,6.53,0,0,0-2.26-.42C15.64,2,15.26,2,12,2s-3.64,0-4.93.07a6.53,6.53,0,0,0-2.26.42A4,4,0,0,0,2.49,4.81a6.53,6.53,0,0,0-.42,2.26C2,8.36,2,8.74,2,12s0,3.64.07,4.93a6.86,6.86,0,0,0,.42,2.27,3.94,3.94,0,0,0,.91,1.4,3.89,3.89,0,0,0,1.41.91,6.53,6.53,0,0,0,2.26.42C8.36,22,8.74,22,12,22s3.64,0,4.93-.07a6.53,6.53,0,0,0,2.26-.42,3.89,3.89,0,0,0,1.41-.91,3.94,3.94,0,0,0,.91-1.4,6.6,6.6,0,0,0,.42-2.27C22,15.64,22,15.26,22,12S22,8.36,21.93,7.07Zm-2.54,8A5.73,5.73,0,0,1,19,16.87,3.86,3.86,0,0,1,16.87,19a5.73,5.73,0,0,1-1.81.35c-.79,0-1,0-3.06,0s-2.27,0-3.06,0A5.73,5.73,0,0,1,7.13,19a3.51,3.51,0,0,1-1.31-.86A3.51,3.51,0,0,1,5,16.87a5.49,5.49,0,0,1-.34-1.81c0-.79,0-1,0-3.06s0-2.27,0-3.06A5.49,5.49,0,0,1,5,7.13a3.51,3.51,0,0,1,.86-1.31A3.59,3.59,0,0,1,7.13,5a5.73,5.73,0,0,1,1.81-.35h0c.79,0,1,0,3.06,0s2.27,0,3.06,0A5.73,5.73,0,0,1,16.87,5a3.51,3.51,0,0,1,1.31.86A3.51,3.51,0,0,1,19,7.13a5.73,5.73,0,0,1,.35,1.81c0,.79,0,1,0,3.06S19.42,14.27,19.39,15.06Zm-1.6-7.44a2.38,2.38,0,0,0-1.41-1.41A4,4,0,0,0,15,6c-.78,0-1,0-3,0s-2.22,0-3,0a4,4,0,0,0-1.38.26A2.38,2.38,0,0,0,6.21,7.62,4.27,4.27,0,0,0,6,9c0,.78,0,1,0,3s0,2.22,0,3a4.27,4.27,0,0,0,.26,1.38,2.38,2.38,0,0,0,1.41,1.41A4.27,4.27,0,0,0,9,18.05H9c.78,0,1,0,3,0s2.22,0,3,0a4,4,0,0,0,1.38-.26,2.38,2.38,0,0,0,1.41-1.41A4,4,0,0,0,18.05,15c0-.78,0-1,0-3s0-2.22,0-3A3.78,3.78,0,0,0,17.79,7.62ZM12,15.82A3.81,3.81,0,0,1,8.19,12h0A3.82,3.82,0,1,1,12,15.82Zm4-6.89a.9.9,0,0,1,0-1.79h0a.9.9,0,0,1,0,1.79Z" />
-                </svg>
-              </SocialLink>
-            </SocialLinks> */}
-          </FooterColumn>
-
-          <FooterColumn>
-            <FooterTitle>Модели</FooterTitle>
-            <FooterList>
-              <FooterListItem><a href="#catalog">Спортивные</a></FooterListItem>
-              <FooterListItem><a href="#catalog">Туристические</a></FooterListItem>
-              {/* <FooterListItem><a href="#catalog">Стритфайтеры</a></FooterListItem> */}
-              <FooterListItem><a href="#catalog">Эндуро</a></FooterListItem>
-            </FooterList>
           </FooterColumn>
 
           <FooterColumn>
@@ -192,7 +197,6 @@ const Footer: React.FC = () => {
               <FooterListItem><a href="#advantages">О нас</a></FooterListItem>
               <FooterListItem><a href="#cases">Кейсы</a></FooterListItem>
               <FooterListItem><a href="#reviews">Отзывы</a></FooterListItem>
-              {/* <FooterListItem><a href="#">Доставка и оплата</a></FooterListItem> */}
             </FooterList>
           </FooterColumn>
 
@@ -208,21 +212,24 @@ const Footer: React.FC = () => {
               <svg viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
                 <path d="M19,4H5A3,3,0,0,0,2,7V17a3,3,0,0,0,3,3H19a3,3,0,0,0,3-3V7A3,3,0,0,0,19,4Zm-.41,2-5.88,5.88a1,1,0,0,1-1.42,0L5.41,6ZM20,17a1,1,0,0,1-1,1H5a1,1,0,0,1-1-1V7.41l5.88,5.88a3,3,0,0,0,4.24,0L20,7.41Z" />
               </svg>
-              <a href="mailto:info@kawasaki.ru">info@protechmoto.ru</a>
+              <a href="mailto:info@protechmoto.ru">info@protechmoto.ru</a>
             </ContactInfo>
-            <ContactInfo>
-              <svg viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-                <path d="M14,2H6A2,2,0,0,0,4,4V20A2,2,0,0,0,6,22H18A2,2,0,0,0,20,20V8L14,2ZM18,20H6V4H13V9H18V20Z" />
-              </svg>
-              <InnLink 
-                href="/images/Реквизиты Новые решения_Точка.pdf" 
-                target="_blank" 
-                rel="noopener noreferrer"
-              >
-                ООО "Новые решения"<br />
-                ИНН 6732243595
-              </InnLink>
-            </ContactInfo>
+          </FooterColumn>
+
+          <FooterColumn>
+            <FooterTitle>Реквизиты</FooterTitle>
+            <CompanyInfo>
+              <CompanyBlock>
+                <p>ООО "Новые решения"</p>
+                <InnLink 
+                  href="/images/Реквизиты Новые решения_Точка.pdf" 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                >
+                  ИНН: 6732243595
+                </InnLink>
+              </CompanyBlock>
+            </CompanyInfo>
           </FooterColumn>
         </FooterContent>
 
